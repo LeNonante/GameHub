@@ -3,7 +3,7 @@ import json
 
 app = Flask(__name__)
 
-# Configuration des jeux - vous pouvez modifier ces variables
+# Configuration des jeux
 with open('static/data/games_infos.json', encoding='utf-8') as f:
     GAMES = json.load(f)
 

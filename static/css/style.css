@@ -1,0 +1,249 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    color: white;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    position: relative;
+}
+
+/* Effet de particules en arrière-plan */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.1), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.05), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.08), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.03), transparent),
+        radial-gradient(2px 2px at 160px 30px, rgba(255,255,255,0.06), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    z-index: -1;
+    animation: sparkle 20s linear infinite;
+}
+
+@keyframes sparkle {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-100px); }
+}
+
+/* Header et Logo */
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.logo-text {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    background: linear-gradient(45deg, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+    position: relative;
+}
+
+.logo-text::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    border-radius: 2px;
+}
+
+.logo-icon {
+    font-size: 3.5rem;
+    filter: drop-shadow(0 4px 12px rgba(59, 130, 246, 0.5));
+    animation: dice-rotate 3s ease-in-out infinite;
+}
+
+@keyframes dice-rotate {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(15deg) scale(1.1); }
+}
+
+/* Grille des jeux */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    justify-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.game-card {
+    background: rgba(51, 65, 85, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    width: 100%;
+    max-width: 320px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid rgba(148, 163, 184, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+
+.game-card:hover::before {
+    left: 100%;
+}
+
+.game-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(59, 130, 246, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.game-card.selected {
+    border-color: #3b82f6;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(59, 130, 246, 0.4);
+    transform: translateY(-8px) scale(1.02);
+}
+
+.game-image {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid rgba(148, 163, 184, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.game-card:hover .game-image {
+    border-color: rgba(59, 130, 246, 0.6);
+    transform: scale(1.05);
+}
+
+.game-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.game-card:hover .game-image img {
+    transform: scale(1.1);
+}
+
+.game-info {
+    text-align: center;
+}
+
+.game-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #f1f5f9;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game-description {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    opacity: 0.9;
+    transition: color 0.3s ease;
+}
+
+.game-card:hover .game-description {
+    color: #cbd5e1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 15px;
+    }
+    
+    .logo-text {
+        font-size: 2.5rem;
+    }
+    
+    .logo-icon {
+        font-size: 2.5rem;
+    }
+    
+    .games-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .game-card {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .logo-text {
+        font-size: 2rem;
+    }
+    
+    .logo-icon {
+        font-size: 2rem;
+    }
+}
+
+/* Animations d'entrée */
+.game-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.game-card:nth-child(1) { animation-delay: 0.1s; }
+.game-card:nth-child(2) { animation-delay: 0.2s; }
+.game-card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header avec logo -->
+        <header class="header">
+            <div class="logo">
+                <h1 class="logo-text">GAME</h1>
+                <div class="logo-icon">🎲</div>
+                <h1 class="logo-text">HUB</h1>
+            </div>
+        </header>
+
+        <!-- Grille des jeux -->
+        <main class="games-grid">
+            {% for game in games %}
+            <div class="game-card" onclick="selectGame({{ game.id }})">
+                <div class="game-image">
+                    <img src="{{ game.image }}" alt="{{ game.title }}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjM0E0MDUzIi8+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iNDAiIGZpbGw9IiM2Mzc2OTQiLz4KPHN2Zz4K'">
+                </div>
+                <div class="game-info">
+                    <h3 class="game-title">{{ game.title }}</h3>
+                    <p class="game-description">{{ game.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </main>
+    </div>
+
+    <script>
+        function selectGame(gameId) {
+            // Ajouter un effet de sélection
+            document.querySelectorAll('.game-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Optionnel: rediriger vers la page du jeu
+            // window.location.href = `/game/${gameId}`;
+            
+            console.log(`Jeu sélectionné: ${gameId}`);
+        }
+
+        // Effet hover amélioré
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('selected')) {
+                    this.style.transform = 'translateY(0) scale(1)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

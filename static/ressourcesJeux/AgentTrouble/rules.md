@@ -1,20 +1,65 @@
-__**Règles Agent Trouble :**__  
-3-8 joueurs
+## 1. Distribution des cartes
 
-__1. Réception des cartes :__  
-Une fois la partie lancée, les joueurs reçoivent leur carte pour la partie. en cas de problème, consultez le code de la partie en haut à gauche du plateau et dans les différents messages pour vérifier que vous avez la bonne carte.
+- **Début de partie :**  
+  Chaque joueur reçoit une carte, et visualise un plateau de jeu avec plusieurs lieux.
 
-Parmi les joueurs, tous sauf un ont une carte indiquant **le même** lieu avec un role différent. Par exemple, le joueur 1 peut être le pilote dans l'avion, le joueur 2 l'hôtesse de l'air dans l'avion et joueur 3 le passager dans l'avion. Le dernier joueur lui possède une carte Espion sans aucun lieu dessus.
+- **Répartition :**  
+  - Tous les joueurs sauf un ont une carte indiquant **le même lieu** avec un rôle différent.  
+    *Exemple :*  
+    - Joueur 1 : Pilote dans l'avion  
+    - Joueur 2 : Hôtesse de l'air dans l'avion  
+    - Joueur 3 : Passager dans l'avion  
+  - Le dernier joueur est **l'Espion** : sa carte ne mentionne aucun lieu.
 
-__2. Déroulé d'une partie :__  
-Le but de l'espion est de trouver le lieu des autre joueurs sans se faire démasquer. Les autres joueurs doivent eux démasquer l'espion.
+---
 
-**a) Phase de questions**  
-Chaque joueur pose à son tour la question qu'il veut **au joueur qu'il souhaite**. Les questions ne doivent pas être personnelles ou utiliser l=des références privées comme par exemple *"On y va souvent ensemble dans ce lieu ?"*. Les questions doivent donc se poser uniquement sur le rôle du joueur ou sur le lieu lui-même. Par exemple : *"Tu y va pour le travail ?"* ou *"Il fait chaud où tu es ?"*.
-Les joueurs normaux doivent donc poser des questions précises pour trouver l'espion lui dévoiler le lieu.
-L'espion lui doit poser des questions précises pour tenter de trouver le lieu sans se faire démasquer.
+## 2. Déroulement d'une partie
 
-**b) Phase de débat / de vote**  
-**A tout moment** (sauf durant une procédure de vote) l'espion peut décider de stopper le jeu pour annoncer qu'il a trouvé le lieu. Si il a juste, il gagne la partie. Sinon, il la perd.
+### Objectifs
 
-**A tout moment** un joueur peut lancer "une procédure de vote" contre un joueur qu'il suspecte. Les joueurs débattent pour tenter de trouver qui peut être l'espion. A la fin, chacun vote pour celui qu'il pense être l'espion. Le joueur avec le plus de voix est éliminé. Si c'est n'est pas l'espion, la partie reprend sans le joueur éliminé (phase de questions).
+- **Espion :** Découvrir le lieu des autres joueurs sans se faire démasquer.
+- **Autres joueurs :** Identifier l'espion parmi eux.
+
+---
+
+### a) **Phase de questions**
+
+- À tour de rôle, chaque joueur pose une question à **qui il veut**.
+- **Règles des questions :**
+  - Pas de questions personnelles ou de références privées  
+    *Exemple interdit :* « On y va souvent ensemble ? »
+  - Questions uniquement sur le **rôle** ou le **lieu**  
+    *Exemples autorisés :*  
+    - « Tu y vas pour le travail ? »  
+    - « Il fait chaud où tu es ? »
+- **Conseils :**
+  - Les joueurs « normaux » doivent poser des questions précises pour démasquer l'espion sans révéler le lieu.
+  - L'espion doit poser des questions pour deviner le lieu sans se faire repérer.
+
+---
+
+### b) **Phase de débat / vote**
+
+- **Procédure de vote :**  
+  À tout moment, un joueur peut lancer une procédure de vote :  
+  - Débat entre les joueurs pour désigner l'espion.
+  - Chacun vote pour le joueur qu'il pense être l'espion. Il est également possible de voter pour l'annulation de la procédure de vote (vote blanc)
+  - Le joueur avec le plus de voix est éliminé. Si le vote blanc est majoritaire, la procédure est annulée et personne n'est éliminé.
+  - Si ce n'est pas l'espion, la partie reprend sans le joueur éliminé (retour à la phase de questions).
+
+- **Annonce de l'espion :**  
+  À tout moment (hors procédure de vote), l'espion peut stopper la partie et annoncer le lieu.  
+  - S'il a raison, il gagne.  
+  - Sinon, il perd.
+
+  ---
+
+### c) **Gagnant(s)**
+
+- **L'espion** l'emporte si (plusieurs cas possibles) :
+    - Il arrive a trouver le lieu et l'annoncer avant son élimination.
+    - Il arrive a survivre jusqu'a ce qu'il ne reste que deux joueurs.
+
+- **Les joueurs normaux** l'emportent si (plusieurs cas possibles) :
+    - Ils arrivent à démasque et éliminer l'espion avant qu'il ne trouve le lieu ou qu'il ne reste que deux joueurs.
+    - L'espion tente d'annoncer un lieu mais se trompe.

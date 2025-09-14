@@ -3,18 +3,27 @@
         "id": 1,
         "title": "Agent trouble",
         "description": "Tout le monde connait le lieu secret sauf l’agent infiltré, qui doit passer inaperçu",
-        "image": "static/images/games/AgentTrouble.png"
+        "image": "/static/ressourcesJeux/AgentTrouble/AgentTrouble.png",
+        "min_players": 3,
+        "max_players": 8,
+        "rules": "static/ressourcesJeux/AgentTrouble/rules.md"
     },
     {
         "id": 2,
         "title": "Jeu 2",
         "description": "Description 2",
-        "image": "static/images/game2.jpg"
+        "image": "/static/ressourcesJeux/AgentTrouble/AgentTrouble.png",
+        "min_players": 3,
+        "max_players": 8,
+        "rules": "static/ressourcesJeux/AgentTrouble/rules.md"
     },
     {
         "id": 3,
         "title": "Jeu 3",
         "description": "Description 3",
-        "image": "static/images/game3.jpg"
+        "image": "/static/ressourcesJeux/AgentTrouble/AgentTrouble.png",
+        "min_players": 3,
+        "max_players": 8,
+        "rules": "static/ressourcesJeux/AgentTrouble/rules.md"
     }
 ]

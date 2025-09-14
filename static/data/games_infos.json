@@ -11,7 +11,7 @@
     {
         "id": 2,
         "title": "Insider",
-        "description": "Description 2",
+        "description": "Tout le monde cherche à deviner un mot secret, mais le traitre le connait et doit guider les autres sans se faire démasquer",
         "image": "/static/ressourcesJeux/Insider/Insider.png",
         "min_players": 4,
         "max_players": 8,

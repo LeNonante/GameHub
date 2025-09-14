@@ -44,6 +44,15 @@ def game(game_code):
         return f"<h1>{game['title']}</h1><p>{game['description']}</p>"
     return "Jeu non trouvé", 404
 
+@app.route('/game/<game_code>/logs') #Page de logs
+def game_logs(game_code):
+    #game = next((g for g in GAMES if g['id'] == game_code), None)
+    logs = [[1, 2, 3], [4, 5, 6]]
+    game=True
+    if game:
+        return render_template('game_logs.html', logs=logs, game_code=game_code)
+    return "Jeu non trouvé", 404
+
 
 
 

@@ -60,13 +60,19 @@
                             </div>
                         </div>
 
-                        <!-- Bouton principal -->
-                        <button class="play-button" onclick="startGame({{ game.id }})">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="5,3 19,12 5,21"/>
-                            </svg>
-                            Lancer une partie
-                        </button>
+                        <!-- encadré pour création/join partie -->
+                        <div class="game-actions-box">
+                            <div class="game-actions-row">
+                                <input type="text" id="pseudoInput" class="game-input" placeholder="Votre pseudo">
+                            </div>
+                            <div class="game-actions-row">
+                                <button class="action-button" onclick="createGame({{ game.id }})">Créer une partie</button>
+                            </div>
+                            <div class="game-actions-row">
+                                <input type="text" id="codeInput" class="game-input" placeholder="Code de la partie">
+                                <button class="action-button" onclick="joinGame()">Rejoindre une partie</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

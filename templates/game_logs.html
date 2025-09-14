@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logs du jeu</title>
+</head>
+<body>
+    <h1>Logs du jeu {{game_code}}</h1>
+    <ul>
+        {% for ligne in logs %}
+            <li>{{ ligne }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

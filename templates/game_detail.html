@@ -92,5 +92,20 @@
             </section>
         </main>
     </div>
+
+    
+    <script>
+    function joinGame() {
+        fetch("/createorjoingame", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({pseudo: "Aurélien"})
+        })
+        .then(res => res.json())
+        .then(data => alert(data.message));
+    }
+    </script>
+
+
 </body>
 </html>

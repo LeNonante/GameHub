@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request
 import json
 import markdown
 
@@ -10,6 +10,8 @@ with open('static/data/games_infos.json', encoding='utf-8') as f:
 
 for game in GAMES:
     print(game['image'])
+
+
 
 @app.route('/')
 def index():
@@ -29,12 +31,16 @@ def game_detail(game_id):
     return "Jeu non trouvé", 404
 
 
-@app.route('/game/<int:game_id>/newgame') #Create / Join
-def new_game(game_id):
-    game = next((g for g in GAMES if g['id'] == game_id), None)
-    if game:
-        return f"<h1>{game['title']}</h1><p>{game['description']}. De {game['nb_min']} à {game['nb_max']} joueurs</p>"
-    return "Jeu non trouvé", 404
+@app.route('/createorjoingame', methods=['POST']) #Transition (pour gerer après un create / join)
+def create_or_join():
+    data = request.get_json()
+    print("eee")
+    if data["pseudo"]!="":
+        #if action=="create":
+         return redirect(url_for("/game/1"))
+    else :
+        return redirect(url_for("/game/3"))
+
 
 
 @app.route('/game/<game_code>') #Page de setup ajout des joueurs et de jeu (en fonction de la variable "Etat" dans la DB)

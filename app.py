@@ -12,13 +12,13 @@ for game in GAMES:
     print(game['image'])
 
 
-
 @app.route('/')
 def index():
     return render_template('index.html', games=GAMES)
 
 @app.route('/game/<int:game_id>') #Description / Règles 
-def game_detail(game_id):
+def game_detail(game_id, erreur=""):
+    erreur = request.args.get('erreur', '')
     game = next((g for g in GAMES if g['id'] == game_id), None)
     if game:
         print(game['image'])
@@ -27,30 +27,42 @@ def game_detail(game_id):
         with open(game['rules'], encoding='utf-8') as rules_file:
             rules_md = rules_file.read()
         game_copy['rules_html'] = markdown.markdown(rules_md)
-        return render_template('game_detail.html', game=game_copy)
+        
+        return render_template('game_detail.html', game=game_copy, erreur=erreur)
     return "Jeu non trouvé", 404
 
 
 @app.route('/createorjoingame', methods=['POST']) #Transition (pour gerer après un create / join)
 def create_or_join():
-    data = request.get_json()
-    print("eee")
-    if data["pseudo"]!="":
-        #if action=="create":
-         return redirect(url_for("/game/1"))
+    pseudo =  request.form['pseudo']
+    action = request.form['action']
+    codePartie = request.form.get('codePartie', '')
+    game_id = request.form.get('game_id', '')
+    if pseudo!="":
+        if action == 'create':
+            pass
+            #CREER UNE PARTIE
+        else :
+            code_fonctionnel=True #Verifier que le code est bon ??
+            if code_fonctionnel :
+                return redirect(url_for("game_detail", game_id=game_id)) #Changer la page
+            if not code_fonctionnel :
+                return redirect(url_for("game_detail", game_id=game_id, erreur="Code de partie invalide"))
     else :
-        return redirect(url_for("/game/3"))
+        return redirect(url_for("game_detail", game_id=game_id, erreur="Pseudo invalide"))
 
 
 
-@app.route('/game/<game_code>') #Page de setup ajout des joueurs et de jeu (en fonction de la variable "Etat" dans la DB)
+@app.route('/<game_code>') #Page de setup ajout des joueurs et de jeu (en fonction de la variable "Etat" dans la DB)
 def game(game_code):
+
     game = next((g for g in GAMES if g['id'] == game_code), None)
     if game:
         return f"<h1>{game['title']}</h1><p>{game['description']}</p>"
     return "Jeu non trouvé", 404
+    
 
-@app.route('/game/<game_code>/logs') #Page de logs
+@app.route('/<game_code>/logs') #Page de logs
 def game_logs(game_code):
     #game = next((g for g in GAMES if g['id'] == game_code), None)
     logs = [[1, 2, 3], [4, 5, 6]]

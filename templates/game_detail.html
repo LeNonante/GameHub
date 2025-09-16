@@ -62,16 +62,25 @@
 
                         <!-- encadré pour création/join partie -->
                         <div class="game-actions-box">
-                            <div class="game-actions-row">
-                                <input type="text" id="pseudoInput" class="game-input" placeholder="Votre pseudo">
-                            </div>
-                            <div class="game-actions-row">
-                                <button class="action-button" onclick="createGame({{ game.id }})">Créer une partie</button>
-                            </div>
-                            <div class="game-actions-row">
-                                <input type="text" id="codeInput" class="game-input" placeholder="Code de la partie">
-                                <button class="action-button" onclick="joinGame()">Rejoindre une partie</button>
-                            </div>
+                            <form method="POST" action="/createorjoingame">
+                                <!-- Parametres cachés -->
+                                <input type="hidden" name="game_id" value="{{ game.id }}">
+    
+                                <!-- Parametres Create -->
+                                <div class="game-actions-row">
+                                    <input type="text" id="pseudoInput" name="pseudo" class="game-input" placeholder="Votre pseudo">
+                                </div>
+                                <div class="game-actions-row">
+                                    <button type="submit" class="action-button" name="action" value="create">Créer une partie</button>
+                                </div>
+
+                                <!-- Parametres Join -->
+                                <div class="game-actions-row">
+                                    <input type="text" id="codeInput" name="codePartie" class="game-input" placeholder="Code de la partie">
+                                    <button type="submit" class="action-button" name="action" value="join">Rejoindre une partie</button>
+                                </div>
+                            </form>
+                            <p class="error-message">{{erreur}}</p>
                         </div>
                     </div>
                 </div>

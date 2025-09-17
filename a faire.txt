@@ -1,2 +1,5 @@
 - Regles INSIDER a refaire
 - Pages des logs a finir
+
+
+- finir la creation de partie et joueurs généraux, avec sessions

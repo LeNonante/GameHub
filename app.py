@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request
 import json
 import markdown
+from assets.gestionDB import *
 
 app = Flask(__name__)
 

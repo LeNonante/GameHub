@@ -5,15 +5,23 @@ import datetime
 
 
 cheminDB="static/data/gamehub.db"
-
+connexion=""
 def create_connection(db_file):
     """ crée une connexion à la base de données SQLite
     :param db_file: chemin vers la base de données SQLite
     :return: objet connexion ou None
     """
+    global connexion
     connexion = sqlite3.connect(db_file)
     curseur = connexion.cursor()
     return curseur
+
+def close_connection():
+    """ ferme la connexion à la base de données SQLite
+    """
+    global connexion
+    if connexion:
+        connexion.close()
 
 def execute_query(curseur, query):
     curseur.execute(query)
@@ -42,6 +50,8 @@ def isCodeValid(codePartie):
     curseur = create_connection(cheminDB)
     query = f"SELECT * FROM Parties WHERE GameCode = '{codePartie}'"
     result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
     return len(result) > 0
 
 def deletePartie(codePartie):
@@ -56,7 +66,7 @@ def deletePartie(codePartie):
     tableJoueursJeu = "Joueurs"+NomJeu  # Nom de la table spécifique au jeu
     
     # Supprimer les joueurs de la table spécifique au jeu
-    query = f"DELETE FROM {tableJoueursJeu} WHERE session IN ( SELECT Joueurs.session FROM Joueurs WHERE Joueurs.GameCode = '{codePartie}');"
+    query = f"DELETE FROM {tableJoueursJeu} WHERE session IN ( SELECT Joueurs.session FROM Joueurs WHERE Joueurs.GameCode = '{codePartie}' AND );"
     curseur.execute(query)
     # Supprimer la partie de la table spécifique au jeu
     query = f"DELETE FROM {tableJeu} WHERE GameCode = '{codePartie}'"
@@ -68,8 +78,10 @@ def deletePartie(codePartie):
     curseur.execute(query)
 
     curseur.connection.commit()
+    curseur.close()
+    close_connection()
 
-def createPartie(game_id): 
+def createPartie(game_id,sessionHote): 
     """
     Crée une nouvelle partie générale dans la table "Parties" avec un code unique.
     """
@@ -81,31 +93,132 @@ def createPartie(game_id):
     while (code,) in existing_codes: #tant que le code existe déjà, on en génère un nouveau
         code = generate_code()
         existing_codes = execute_query(curseur, "SELECT GameCode FROM Parties")
-    query = f"INSERT INTO Parties (GameCode, JeuId, EtatLancement, sessionHote, Timestamp) VALUES ('{code}', {game_id}, '0', '{code+'HOTE'}', {timestamp})"
+    query = f"INSERT INTO Parties (GameCode, JeuId, EtatLancement, sessionHote, Timestamp) VALUES ('{code}', {game_id}, '0', '{sessionHote}', {timestamp})"
     curseur.execute(query)
     curseur.connection.commit()
 
     # Supprime les parties dont le timestamp est plus petit que (actuel - 604800), donc les parties datent de + d'une semaine
     seuil = int(datetime.datetime.now().timestamp()) - 604800
     codes_parties = [row[0] for row in execute_query(curseur, f"SELECT GameCode FROM Parties WHERE Timestamp < {seuil}")] #Récupère tous les codes de parties
-    for code in codes_parties:
-        deletePartie(code)
+    for c in codes_parties:
+        deletePartie(c)
     curseur.connection.commit()
+    curseur.close()
 
-    return curseur.lastrowid
+    return code
 
 def addJoueurToPartie(codePartie, session, pseudo):
     """
     Appelée pour ajouter des jouueurs a une partie existante. (que ce soit le joueur qui rejoins ou qui crée la partie)
     
-    Si le couple session/codePartie n'existe pas, on ajoute le joueur a et sa partie a la table générale 
+    Si le couple session/codePartie n'existe pas, on ajoute le joueur a a la table des jouers généraux.
+    Si le couple session/codePartie existe déjà, on met juste à jour son pseudo.
 
-
-
-    Vérifie si une partie avec le code donné existe dans la table "Parties".
     Args:
-        codePartie (str): Le code de la partie à rejoindre.
-    Returns:
-        bool: True si la partie existe, False sinon.
+        codePartie (str): Le code de la partie à rejoindre ou à créer.
+        session (str): L'identifiant de session du joueur.
+        pseudo (str): Le pseudo du joueur.
     """
-    pass
+    curseur = create_connection(cheminDB)
+    # Vérifier si le couple (session, codePartie) existe déjà
+    query_check = f"SELECT * FROM Joueurs WHERE session = '{session}' AND GameCode = '{codePartie}'"
+    result = execute_query(curseur, query_check)
+    if result!= []:
+        # Mettre à jour le pseudo si le joueur existe déjà dans la partie
+        query_update = f"UPDATE Joueurs SET Pseudo = '{pseudo}' WHERE session = '{session}' AND GameCode = '{codePartie}'"
+        curseur.execute(query_update)
+    else:
+        # Ajouter le joueur à la partie
+        query_insert = f"INSERT INTO Joueurs (session, Pseudo, GameCode) VALUES ('{session}', '{pseudo}', '{codePartie}')"
+        curseur.execute(query_insert)
+    curseur.connection.commit()
+    curseur.close()
+    close_connection()
+
+def getJoueursByCode(codePartie):
+    """
+    Récupère la liste des joueurs associés à une partie donnée.
+    Args:
+        codePartie (str): Le code de la partie.
+    Returns:
+        list: Une liste de dictionnaires contenant les informations des joueurs (session, pseudo).
+    """
+    curseur = create_connection(cheminDB)
+    query = f"SELECT Pseudo FROM Joueurs WHERE GameCode = '{codePartie}'"
+    result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
+    joueurs = [x[0] for x in result]
+    return joueurs
+
+def getGameIdByCode(codePartie):
+    """
+    Récupère l'ID du jeu associé à une partie donnée.
+    Args:
+        codePartie (str): Le code de la partie.
+    Returns:
+        int: L'ID du jeu associé à la partie, ou None si la partie n'existe pas.
+    """
+    curseur = create_connection(cheminDB)
+    query = f"SELECT JeuId FROM Parties WHERE GameCode = '{codePartie}'"
+    result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
+    if result:
+        return result[0][0]
+    return None
+
+def getPseudoBySessionAndGameCode(session, gameCode):
+    """
+    Récupère le pseudo d'un joueur en fonction de son identifiant de session et du code de la partie.
+    Args:
+        session (str): L'identifiant de session du joueur.
+        GameCode (str): Le code de la partie.
+    Returns:
+        str: Le pseudo du joueur, ou None si le joueur n'existe pas.
+    """
+    curseur = create_connection(cheminDB)
+    query = f"SELECT Pseudo FROM Joueurs WHERE session = '{session}' and GameCode = '{gameCode}'"
+    result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
+    if result:
+        return result[0][0]
+    return None
+
+def getSessionHoteByGameCode(gameCode):
+    """
+    Récupère l'identifiant de session de l'hôte d'une partie en fonction du code de la partie.
+    Args:
+        GameCode (str): Le code de la partie.
+    Returns:
+        str: L'identifiant de session de l'hôte, ou None si la partie n'existe pas.
+    """
+    curseur = create_connection(cheminDB)
+    query = f"SELECT sessionHote FROM Parties WHERE GameCode = '{gameCode}'"
+    result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
+    if result:
+        return result[0][0]
+    return None
+
+def getLogsByGameCode(gameCode):
+    """
+    Récupère les logs d'une partie en fonction du code de la partie.
+    Args:
+        GameCode (str): Le code de la partie.
+    Returns:
+        list: Une liste de dictionnaires contenant les informations des logs (timestamp, message).
+    """
+    curseur = create_connection(cheminDB)
+    gameName = execute_query(curseur, f"SELECT GameName FROM Parties JOIN Jeux ON Parties.JeuId = Jeux.Id WHERE GameCode = '{gameCode}'")[0][0]
+    tableJoueursJeu = "Joueurs"+gameName  # Nom de la table spécifique au jeu
+    
+    query = f"SELECT t2.Pseudo, t1.* FROM {tableJoueursJeu} t1, Joueurs t2 WHERE t1.GameCode = '{gameCode}' AND t1.session = t2.session AND t1.GameCode = t2.GameCode"
+    resultDonnées = execute_query(curseur, query)
+    liste_colonnes = [description[0] for description in curseur.description]
+    liste_resultats = [list(row) for row in resultDonnées]
+    curseur.close()
+    close_connection()
+    return liste_colonnes, liste_resultats

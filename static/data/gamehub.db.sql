@@ -1,4 +1,7 @@
--- Pour creer cette base, supprimer celle qui existe et lancer la commande : sqlite3 /workspaces/GameHub/static/data/gamehub.db < /workspaces/GameHub/static/data/gamehub.db.sql
+-- Pour creer cette base, supprimer celle qui existe et lancer la commande : 
+--     sqlite3 static/data/gamehub.db < static/data/gamehub.db.sql : Windows dans invite de commande (pas powershell)
+--     sqlite3 /workspaces/GameHub/static/data/gamehub.db < /workspaces/GameHub/static/data/gamehub.db.sql : Linux dans terminal
+
 -- Création de la base de données GameHub
 
 -- Table Jeux
@@ -32,19 +35,21 @@ CREATE TABLE IF NOT EXISTS PartiesAgentTrouble (
 
 -- Table Joueurs
 CREATE TABLE IF NOT EXISTS Joueurs (
-    session TEXT PRIMARY KEY,
+    session TEXT,
     Pseudo TEXT,
     GameCode TEXT,
+    PRIMARY KEY(session, GameCode),
     FOREIGN KEY(GameCode) REFERENCES Parties(GameCode)
 );
 
 -- Table JoueursAgentTrouble
 CREATE TABLE IF NOT EXISTS JoueursAgentTrouble (
-    session TEXT PRIMARY KEY,
+    session TEXT,
     lieu TEXT,
     role TEXT,
     carte TEXT,
-    FOREIGN KEY(session) REFERENCES Joueurs(session)
+    GameCode TEXT,
+    PRIMARY KEY(session, GameCode)
 );
 
 -- Insertion des jeux

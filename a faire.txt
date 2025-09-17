@@ -1,5 +1,2 @@
 - Regles INSIDER a refaire
-- Pages des logs a finir
-
-
-- finir la creation de partie et joueurs généraux, avec sessions
+- Réparer la suppression (qui supprime les jouers agent trouble de tous les codes, pas que celui à supprimer). Peut etre qu'il récup ceux qui sont dans la partie mais les supprime de chaque partie

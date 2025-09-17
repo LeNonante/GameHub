@@ -38,18 +38,17 @@ def create_or_join():
     pseudo =  request.form['pseudo']
     action = request.form['action']
     codePartie = request.form.get('codePartie', '')
-    game_id = request.form.get('game_id', '')
+    game_id = request.form.get('game_id', '').upper()
     if pseudo!="":
         if action == 'create':
             pass
             #CREER UNE PARTIE
         else :
-            code_fonctionnel=True #Verifier que le code est bon ??
-            if code_fonctionnel :
+            if isCodeValid(codePartie):
                 return redirect(url_for("game_detail", game_id=game_id)) #Changer la page
-            if not code_fonctionnel :
+            else:
                 return redirect(url_for("game_detail", game_id=game_id, erreur="Code de partie invalide"))
-    else :
+    else:
         return redirect(url_for("game_detail", game_id=game_id, erreur="Pseudo invalide"))
 
 

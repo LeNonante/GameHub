@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS Parties (
     JeuId INTEGER,
     EtatLancement INTEGER DEFAULT 0,
     sessionHote TEXT,
+    Timestamp INTEGER,
     FOREIGN KEY(JeuId) REFERENCES Jeux(Id),
     FOREIGN KEY(sessionHote) REFERENCES Joueurs(session)
 );
@@ -26,7 +27,6 @@ CREATE TABLE IF NOT EXISTS PartiesAgentTrouble (
     GameCode TEXT PRIMARY KEY,
     Etat INTEGER DEFAULT 0,
     Plateau TEXT,
-    Timestamp INTEGER,
     FOREIGN KEY(GameCode) REFERENCES Parties(GameCode)
 );
 
@@ -46,3 +46,7 @@ CREATE TABLE IF NOT EXISTS JoueursAgentTrouble (
     carte TEXT,
     FOREIGN KEY(session) REFERENCES Joueurs(session)
 );
+
+-- Insertion des jeux
+INSERT INTO Jeux (GameType, GameName) VALUES (1, 'AgentTrouble');
+INSERT INTO Jeux (GameType, GameName) VALUES (2, 'Insider');

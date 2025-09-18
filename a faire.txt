@@ -4,4 +4,10 @@
 - enlever etat de bdd PartiesAT
 - tester avec vrais joueurs / session la creation de partie AT
 - modifier l'état de la partie dans Partie une fois la partie AT configurée
-- Supprimer plateau quand partieAT  supprimée
+
+Finir base de données cartes persos :
+    Trader
+    Super Heros
+    Secrétaire
+    Carossier
+    Cardiologue

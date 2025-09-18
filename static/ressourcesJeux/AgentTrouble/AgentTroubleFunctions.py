@@ -2,6 +2,7 @@ from random import randint, choices, shuffle
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+from io import BytesIO
 cheminAssetsAgentTrouble="static/ressourcesJeux/AgentTrouble/assets/"
 
 class Joueur():
@@ -65,7 +66,15 @@ class Plateau():
             #draw.text((0, 0),code,(0,0,0),font=fontCode)
 
         #On enregistre l'image
-        self.ImageFond.save(cheminAssetsAgentTrouble+"temp/Plateau_"+code+".png","PNG")
+        #self.ImageFond.save(cheminAssetsAgentTrouble+"temp/Plateau_"+code+".png","PNG")
+        #On transforme l'image en bytes pour l'enregistrer en BLOB dans la DB
+        buffer = BytesIO()
+        self.ImageFond.save(buffer, format="PNG")
+        self.image_bytes = buffer.getvalue()
+    
+    def getBytes(self):
+        return self.image_bytes
+        
 
     def placer(self,liste):
         """Reset le plateau et place les cartes de la liste en paramètre"""
@@ -111,7 +120,8 @@ class Manche():
             #On crée les objets joueurs et ecrit dans les logs
             self.joueurs.append(Joueur(self.lieu,self.roles[i-1],i))
 
-        Plateau(self.lieux,self.code)
+        self.plateau = Plateau(self.lieux,self.code)
+        self.plateauBytes = self.plateau.getBytes()
 
     def getInfos(self):
         dicoInfos={}#Dico de la forme numJoueur : (lieu, role, carte)
@@ -119,7 +129,10 @@ class Manche():
             num, infos = j.getInfos()
             dicoInfos[num]=infos
         return dicoInfos
-
+    
+    def getPlateau(self):
+        return self.plateauBytes
+    
     def test(self):
         """Fonction de test qui affiche les elements de la manche"""
         print(self.code, self.lieu,self.espion,self.roles)
@@ -377,4 +390,5 @@ def genererPartieAgentTrouble(NbJoueurs,NbLieux,code):
     """Fonction qui lance une manche"""
     #On creer la manche
     manche=Manche(NbJoueurs, code, NbLieux)
-    return manche.getInfos()
+    imagePlateau=manche.getPlateau()
+    return manche.getInfos(), imagePlateau

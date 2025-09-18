@@ -249,7 +249,7 @@ def createAgentTroublePartie(GameCode):
     Args:
         GameCode (str): Le code de la partie.
     """
-    infosPartie=genererPartieAgentTrouble(4,10,GameCode) #On récupère les infos de la partie AT
+    infosPartie, bytesImages=genererPartieAgentTrouble(4,10,GameCode) #On récupère les infos de la partie AT
     listeSessions=getSessionsByGameCode(GameCode)#On récupère les sessions des joueurs de la partie
     dicoFinal={}#Affecte les valeurs des 'items' agent trouble aux sessions
     for i in range(len(listeSessions)): #On lie les sessions aux joueurs d'AT
@@ -262,8 +262,8 @@ def createAgentTroublePartie(GameCode):
         query_insert = f"INSERT INTO JoueursAgentTrouble (session, lieu, role, carte, GameCode) VALUES ('{session}', '{infos[0]}', '{infos[1].replace("'", "''")}', '{infos[2].replace("'", "''")}', '{GameCode}')"
         curseur.execute(query_insert)
     # Ajouter les infos de la partie à la table "PartiesAgentTrouble"
-    query_insert = f"INSERT INTO PartiesAgentTrouble (GameCode, Etat, Plateau) VALUES ('{GameCode}', 'A', 'Plateau_{GameCode}.png')"
-    curseur.execute(query_insert)
+    query_insert = f"INSERT INTO PartiesAgentTrouble (GameCode, Etat, imagePlateau) VALUES (?, ?, ?)"
+    curseur.execute(query_insert, (GameCode, 'A', bytesImages))
     curseur.connection.commit()
     curseur.close()
     close_connection()

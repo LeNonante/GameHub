@@ -1,3 +1,3 @@
 from static.gestionDB import *
-
-print(createAgentTroublePartie("TEST"))
+import base64
+print(createAgentTroublePartie("sqfgqsdfqsdfqsdqsdqsdqf"))

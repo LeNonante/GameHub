@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Parties (
 CREATE TABLE IF NOT EXISTS PartiesAgentTrouble (
     GameCode TEXT PRIMARY KEY,
     Etat INTEGER DEFAULT 0,
-    Plateau TEXT,
+    ImagePlateau	BLOB,
     FOREIGN KEY(GameCode) REFERENCES Parties(GameCode)
 );
 

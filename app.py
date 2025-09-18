@@ -88,7 +88,7 @@ def game(game_code):
 @app.route('/<game_code>/logs') #Page de logs
 def game_logs(game_code):
     liste_colonnes, liste_resultats  = getLogsByGameCode(game_code)
-    return render_template("sql_results.html", colonnes=liste_colonnes, resultats=liste_resultats)
+    return render_template("game_logs.html", colonnes=liste_colonnes, resultats=liste_resultats)
 
 
 

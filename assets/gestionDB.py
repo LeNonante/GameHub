@@ -66,7 +66,7 @@ def deletePartie(codePartie):
     tableJoueursJeu = "Joueurs"+NomJeu  # Nom de la table spécifique au jeu
     
     # Supprimer les joueurs de la table spécifique au jeu
-    query = f"DELETE FROM {tableJoueursJeu} WHERE session IN ( SELECT Joueurs.session FROM Joueurs WHERE Joueurs.GameCode = '{codePartie}' AND );"
+    query = f"DELETE FROM {tableJoueursJeu} WHERE GameCode = '{codePartie}';"
     curseur.execute(query)
     # Supprimer la partie de la table spécifique au jeu
     query = f"DELETE FROM {tableJeu} WHERE GameCode = '{codePartie}'"
@@ -222,3 +222,5 @@ def getLogsByGameCode(gameCode):
     curseur.close()
     close_connection()
     return liste_colonnes, liste_resultats
+
+deletePartie("5YOO")

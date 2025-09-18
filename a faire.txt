@@ -1,1 +1,6 @@
 - Regles INSIDER a refaire
+
+- ajouter un segment avec les paramètres des jeux sur la page lobby (par exemple nb de lieux pour AT)
+- enlever etat de bdd PartiesAT
+- tester avec vrais joueurs / session la creation de partie AT
+- modifier l'état de la partie dans Partie une fois la partie AT configurée

@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, make_respo
 import json
 import markdown
 import uuid
-from assets.gestionDB import *
+from static.gestionDB import *
 
 app = Flask(__name__)
 

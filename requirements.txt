@@ -2,3 +2,4 @@ flask
 markdown
 pillow
 requests
+gunicorn

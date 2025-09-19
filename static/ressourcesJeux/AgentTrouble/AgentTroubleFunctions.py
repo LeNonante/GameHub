@@ -22,7 +22,7 @@ class Joueur():
         self.role=role
         self.num=numero
         if self.role=="ESPION" :
-            self.carte=cheminAssetsAgentTrouble+"cartesJoueurs/Agent.jpg"
+            self.carte=cheminAssetsAgentTrouble+"CartesJoueurs/Agent.jpg"
         else :
             #On construit le lien de la carte grace aux infos du joueur
             texte1=InfosLieux[self.numLieu][0]
@@ -31,7 +31,7 @@ class Joueur():
             texte2=texte2.replace("è", "e")
             texte2=texte2.replace("-", " ")
             self.carte=texte1+"_"+texte2
-            self.carte=cheminAssetsAgentTrouble+"cartesJoueurs/"+self.carte+".jpg"
+            self.carte=cheminAssetsAgentTrouble+"CartesJoueurs/"+self.carte+".png"
 
     def getInfos(self):
         return self.num, (self.nomLieu, self.role, self.carte)

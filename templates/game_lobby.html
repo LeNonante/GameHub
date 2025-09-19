@@ -52,7 +52,10 @@
             </div>
             <button class="reload-btn" onclick="window.location.reload();">Recharger la page</button>
             {% if nbMinimalJoueurAtteint %}
-                <button type="submit" class="reload-btn" name="action" value="Launch">Lancer la partie</button>
+                <form method="POST" action="/lancementgame">
+                    <input type="hidden" name="gameCode" value={{ game_code }}>
+                    <button type="submit" class="reload-btn" name="action" value="Launch">Lancer la partie</button>
+                </form>
             {% endif %}
         </div>
     </div>

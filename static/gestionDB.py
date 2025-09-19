@@ -111,6 +111,37 @@ def createPartie(game_id,sessionHote):
 
     return code
 
+def getEtatPartieByCode(codePartie):
+    """
+    Récupère l'état d'une partie en fonction de son code.
+    Args:
+        codePartie (str): Le code de la partie.
+    Returns:
+        int: L'état de la partie ('0', '1', '2', 'A', 'F'), ou None si la partie n'existe pas.
+    """
+    curseur = create_connection(cheminDB)
+    query = f"SELECT EtatLancement FROM Parties WHERE GameCode = '{codePartie}'"
+    result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
+    if result:
+        return result[0][0]
+    return None
+
+def setEtatPartieByCode(codePartie, nouvelEtat):
+    """
+    Met à jour l'état d'une partie en fonction de son code.
+    Args:
+        codePartie (str): Le code de la partie.
+        nouvelEtat (str): Le nouvel état de la partie ('0', '1', '2', 'A', 'F').
+    """
+    curseur = create_connection(cheminDB)
+    query = f"UPDATE Parties SET EtatLancement = '{nouvelEtat}' WHERE GameCode = '{codePartie}'"
+    curseur.execute(query)
+    curseur.connection.commit()
+    curseur.close()
+    close_connection()
+
 def addJoueurToPartie(codePartie, session, pseudo):
     """
     Appelée pour ajouter des jouueurs a une partie existante. (que ce soit le joueur qui rejoins ou qui crée la partie)
@@ -249,8 +280,10 @@ def createAgentTroublePartie(GameCode):
     Args:
         GameCode (str): Le code de la partie.
     """
-    infosPartie, bytesImages=genererPartieAgentTrouble(4,10,GameCode) #On récupère les infos de la partie AT
     listeSessions=getSessionsByGameCode(GameCode)#On récupère les sessions des joueurs de la partie
+    
+    infosPartie, bytesImages=genererPartieAgentTrouble(len(listeSessions),10,GameCode) #On récupère les infos de la partie AT
+    
     dicoFinal={}#Affecte les valeurs des 'items' agent trouble aux sessions
     for i in range(len(listeSessions)): #On lie les sessions aux joueurs d'AT
         session=listeSessions[i]
@@ -267,3 +300,38 @@ def createAgentTroublePartie(GameCode):
     curseur.connection.commit()
     curseur.close()
     close_connection()
+    
+def getInfosAgentTroubleBySessionAndGameCode(session, gameCode):
+    """
+    Récupère les informations spécifiques au jeu "Agent Trouble" pour un joueur donné en fonction de son identifiant de session et du code de la partie.
+    Args:
+        session (str): L'identifiant de session du joueur.
+        GameCode (str): Le code de la partie.
+    Returns:
+        dict: Un dictionnaire contenant les informations du joueur (lieu, role, carte), ou None si le joueur n'existe pas.
+    """
+    curseur = create_connection(cheminDB)
+    query = f"SELECT lieu, role, carte FROM JoueursAgentTrouble WHERE session = '{session}' and GameCode = '{gameCode}'"
+    result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
+    if result:
+        return {"lieu": result[0][0], "role": result[0][1], "carte": result[0][2]}
+    return None
+
+def getPlateauAgentTroubleByGameCode(gameCode):
+    """
+    Récupère l'image du plateau de jeu pour une partie donnée du jeu "Agent Trouble".
+    Args:
+        GameCode (str): Le code de la partie.
+    Returns:
+        bytes: Les données binaires de l'image du plateau, ou None si la partie n'existe pas.
+    """
+    curseur = create_connection(cheminDB)
+    query = f"SELECT imagePlateau FROM PartiesAgentTrouble WHERE GameCode = '{gameCode}'"
+    result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
+    if result:
+        return result[0][0]
+    return None

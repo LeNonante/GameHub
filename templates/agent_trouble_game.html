@@ -44,7 +44,7 @@
                     <h2 class="section-title">Votre Carte</h2>
                     
                     {% if player_card_image %}
-                        <img src="data:image/png;base64,{{ player_card_image }}" 
+                        <img src="{{ player_card_image }}" 
                              alt="Carte du joueur: {{ lieu }} - {{ player_role }}" 
                              class="player-card">
                     {% else %}

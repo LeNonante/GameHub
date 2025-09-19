@@ -40,8 +40,8 @@ GameHub/
 │   ├── data/
 │   │   ├── games_infos.json   # 🎮 Configuration des jeux
 │   │   ├── schemas.drawio     # 📊 Schéma base de données
-│   │   ├── database.db                 # 🗄️ Base de données SQLite
-│   │   └── database.db.sql            # 📋 Schéma de la base
+│   │   ├── database.db        # 🗄️ Base de données SQLite
+│   │   └── database.db.sql    # 📋 Schéma de la base
 │   │
 │   ├── gestionDB.py           # 🗄️ Fonctions base de données
 │   └── ressourcesJeux/        # 🖼️ Assets des jeux

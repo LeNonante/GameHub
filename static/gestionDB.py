@@ -259,7 +259,7 @@ def createAgentTroublePartie(GameCode):
     # Ajouter les infos des joueurs à la table "JoueursAgentTrouble"
     for session, infos in dicoFinal.items():
 
-        query_insert = f"INSERT INTO JoueursAgentTrouble (session, lieu, role, carte, GameCode) VALUES ('{session}', '{infos[0]}', '{infos[1].replace("'", "''")}', '{infos[2].replace("'", "''")}', '{GameCode}')"
+        query_insert = f"INSERT INTO JoueursAgentTrouble (session, lieu, role, carte, GameCode) VALUES ('{session}', '{infos[0].replace("'", "''")}', '{infos[1].replace("'", "''")}', '{infos[2]}', '{GameCode}')"
         curseur.execute(query_insert)
     # Ajouter les infos de la partie à la table "PartiesAgentTrouble"
     query_insert = f"INSERT INTO PartiesAgentTrouble (GameCode, Etat, imagePlateau) VALUES (?, ?, ?)"

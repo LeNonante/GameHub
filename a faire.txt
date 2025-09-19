@@ -2,10 +2,15 @@
 
 - ajouter un segment avec les paramètres des jeux sur la page lobby (par exemple nb de lieux pour AT)
 - enlever etat de bdd PartiesAT
-- tester avec vrais joueurs / session la creation de partie AT
+- tester avec vrais joueurs / session la creation de partie AT, et le liens des crates des joueurs
 - modifier l'état de la partie dans Partie une fois la partie AT configurée
 
-Finir base de données cartes persos :
+
+
+
+
+- Recrer images avec repo agen trouble 
+Finir base de données cartes persos : 
     Trader
     Super Heros
     Secrétaire

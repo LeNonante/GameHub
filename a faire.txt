@@ -4,7 +4,8 @@
 - enlever etat de bdd PartiesAT
 - tester avec vrais joueurs / session la creation de partie AT, et le liens des crates des joueurs
 - modifier l'état de la partie dans Partie une fois la partie AT configurée
-
+- faire fonctionner dynamiquement template de AT
+- Lier le template de AT a la route /code
 
 
 

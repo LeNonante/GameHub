@@ -10,7 +10,7 @@
 
 
 
-- Recrer images avec repo agen trouble 
+- Recrer images avec repo agent trouble ET VERIFIER QUE LE SCRIPT TROVE LE CHEMIN DE CHACUN 
 Finir base de données cartes persos : 
     Trader
     Super Heros

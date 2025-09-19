@@ -71,7 +71,13 @@ Le projet utilise un schéma SQLite relationnel avec les tables principales :
 - **Joueurs** : Informations des participants
 - **JoueursAgentTrouble** : Rôles et cartes spécifiques
 
-## 🚀 Installation et lancement
+## 🌐 Jouer en ligne
+
+**🎮 [Accéder à GameHub](LIEN)**
+
+La plateforme est accessible directement depuis votre navigateur, aucune installation requise !
+
+## 🚀 Installation et lancement en local
 
 ### Prérequis
 - Python 3.8+
@@ -89,55 +95,12 @@ Le projet utilise un schéma SQLite relationnel avec les tables principales :
    pip install -r requirements.txt
    ```
 
-3. **Initialisez la base de données** (si nécessaire) :
-   ```bash
-   sqlite3 database.db < database.db.sql
-   ```
-
 4. **Lancez l'application** :
    ```bash
    python app.py
    ```
 
 5. **Accédez à l'interface** : [http://localhost:5000](http://localhost:5000)
-
-## 🎯 Utilisation
-
-1. **Accueil** : Sélectionnez un jeu dans la liste
-2. **Création de partie** : Entrez votre pseudo et créez une nouvelle partie
-3. **Rejoindre une partie** : Utilisez le code de partie fourni par l'hôte
-4. **Lobby** : Attendez les autres joueurs et lancez la partie
-5. **Jeu** : Profitez de l'expérience de jeu interactive !
-
-## 🔧 Ajouter un nouveau jeu
-
-### 1. Configuration
-Ajoutez les informations dans `static/data/games_infos.json` :
-```json
-{
-  "id": 3,
-  "title": "Nouveau Jeu",
-  "description": "Description du jeu...",
-  "min_players": 3,
-  "max_players": 8,
-  "duration": "30-45 min",
-  "image": "static/ressourcesJeux/NouveauJeu/NouveauJeu.png",
-  "rules": "static/ressourcesJeux/NouveauJeu/rules.md"
-}
-```
-
-### 2. Ressources
-Créez le dossier `static/ressourcesJeux/NouveauJeu/` avec :
-- `NouveauJeu.png` : Image de couverture
-- `rules.md` : Règles en Markdown
-- `assets/` : Images du plateau et cartes
-- `NouveauJeuFunctions.py` : Logique du jeu
-
-### 3. Templates
-Créez le template de jeu dans `templates/nouveau_jeu_game.html`
-
-### 4. Routes
-Ajoutez les routes nécessaires dans `app.py`
 
 ## 🛠️ Technologies utilisées
 
@@ -148,33 +111,6 @@ Ajoutez les routes nécessaires dans `app.py`
 - ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white) **CSS3**
 - ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black) **JavaScript**
 
-## 📋 À faire
-
-- [ ] Finaliser les règles Insider
-- [ ] Ajouter segment paramètres jeux sur lobby
-- [ ] Tester création partie Agent Trouble multi-joueurs
-- [ ] Modifier état partie dans BDD
-- [ ] Optimiser le template Agent Trouble
-- [ ] Créer images cartes personnages restantes
-- [ ] Implémenter système de logs de partie
-
-## 🤝 Contribuer
-
-Les contributions sont les bienvenues ! Voici comment procéder :
-
-1. **Fork** le projet
-2. **Créez** une branche pour votre fonctionnalité (`git checkout -b feature/NouvelleFonctionnalite`)
-3. **Committez** vos changements (`git commit -m 'Ajout nouvelle fonctionnalité'`)
-4. **Push** vers la branche (`git push origin feature/NouvelleFonctionnalite`)
-5. **Ouvrez** une Pull Request
-
-### Types de contributions recherchées
-- 🎮 Nouveaux jeux
-- 🐛 Corrections de bugs
-- ✨ Améliorations UX/UI
-- 📖 Documentation
-- 🧪 Tests unitaires
-
 ## 📄 Licence
 
 Ce projet est sous licence **MIT**. Voir le fichier `LICENSE` pour plus de détails.
@@ -183,7 +119,4 @@ Ce projet est sous licence **MIT**. Voir le fichier `LICENSE` pour plus de déta
 
 **LeNonante** - [GitHub](https://github.com/LeNonante)
 
----
-
-*Développé avec ❤️ pour les passionnés de jeux de société*
 

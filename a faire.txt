@@ -1,2 +1,19 @@
 - Regles INSIDER a refaire
-- Pages des logs a finir
+
+- ajouter un segment avec les paramètres des jeux sur la page lobby (par exemple nb de lieux pour AT)
+- enlever etat de bdd PartiesAT
+- tester avec vrais joueurs / session la creation de partie AT, et le liens des crates des joueurs
+- modifier l'état de la partie dans Partie une fois la partie AT configurée
+- faire fonctionner dynamiquement template de AT
+- Lier le template de AT a la route /code
+
+
+
+
+- Recrer images avec repo agent trouble ET VERIFIER QUE LE SCRIPT TROVE LE CHEMIN DE CHACUN 
+Finir base de données cartes persos : 
+    Trader
+    Super Heros
+    Secrétaire
+    Carossier
+    Cardiologue

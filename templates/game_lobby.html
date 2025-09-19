@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Lobby de la partie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_detail.css') }}">
+    <style>
+        .lobby-container { max-width: 500px; margin: 40px auto; background: #1e293b; border-radius: 16px; padding: 32px; color: white; }
+        .lobby-title { font-size: 2rem; margin-bottom: 20px; }
+        .lobby-info { margin-bottom: 24px; }
+        .players-list { text-align:left ; margin-bottom: 24px; }
+        .players-list li { margin-bottom: 8px; }
+        .reload-btn { padding: 10px 24px; border-radius: 8px; background: #3b82f6; color: white; border: none; font-weight: 600; cursor: pointer; }
+        .reload-btn:hover { background: #2563eb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header avec navigation -->
+        <header class="header">
+            <nav class="nav">
+                <a href="{{ url_for('index') }}" class="back-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Retour
+                </a>
+                <div class="logo-small">
+                    <span class="logo-text-small">GAME</span>
+                    <span class="logo-icon-small">🎲</span>
+                    <span class="logo-text-small">HUB</span>
+                </div>
+            </nav>
+        </header>
+        <div style="margin-bottom:24px; text-align:center">
+            <img src="{{ game_image }}" alt="{{ game_name }}" style="width:120px; height:120px; border-radius:16px; box-shadow:0 8px 24px rgba(59,130,246,0.18); object-fit:cover; background:#334155; border:3px solid #3b82f6;">
+            <h2 style="font-size:2.2rem; font-weight:800; color:#f1f5f9; margin:18px 0 0 0; background:linear-gradient(135deg,#f1f5f9,#3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">{{ game_name }}</h2>
+        </div>
+        <div class="lobby-container">
+            <div class="lobby-info">
+                <strong>Code de la partie :</strong> {{ game_code }}<br>
+                <strong>Ton pseudo :</strong> {{ my_pseudo }}
+            </div>
+            <div>
+                <strong>Joueurs dans la partie :</strong>
+                <ul class="players-list">
+                    {% for joueur in joueurs %}
+                        <li>{{ joueur }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <button class="reload-btn" onclick="window.location.reload();">Recharger la page</button>
+            {% if nbMinimalJoueurAtteint %}
+                <form method="POST" action="/lancementgame">
+                    <input type="hidden" name="gameCode" value={{ game_code }}>
+                    <button type="submit" class="reload-btn" name="action" value="Launch">Lancer la partie</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

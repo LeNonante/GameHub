@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Trouble - {{ game_code }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_detail.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/agent_trouble_game.css') }}">
+</head>
+<body>
+    <div class="container">
+         <!-- Header avec navigation -->
+        <header class="header">
+            <nav class="nav">
+                <a href="{{ url_for('index') }}" class="back-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Retour
+                </a>
+                <div class="logo-small">
+                    <span class="logo-text-small">GAME</span>
+                    <span class="logo-icon-small">🎲</span>
+                    <span class="logo-text-small">HUB</span>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Interface de jeu -->
+        <div class="game-interface">
+            <!-- En-tête du jeu -->
+            <div class="game-header">
+                <div class="player-info">
+                    <span class="player-name">{{ player_name }}</span>
+                </div>
+                <div class="game-code">Code: {{ game_code }}</div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="game-content">
+                <!-- Section carte du joueur -->
+                <div class="player-card-section">
+                    <h2 class="section-title">Votre Carte</h2>
+                    
+                    {% if player_card_image %}
+                        <img src="{{ player_card_image }}" 
+                             alt="Carte du joueur: {{ lieu }} - {{ player_role }}" 
+                             class="player-card">
+                    {% else %}
+                        <div style="text-align: center; color: #94a3b8; padding: 40px;">
+                            <div style="font-size: 3rem;">🃏</div>
+                            <p>Carte non disponible</p>
+                        </div>
+                    {% endif %}
+                    
+                    {% if player_role %}
+                        <div class="player-role">{{ lieu }} - {{ player_role }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Section plateau -->
+                <div class="plateau-section">
+                    <h2 class="section-title">Plateau de Jeu</h2>
+                    
+                    {% if plateau_image %}
+                        <img src="data:image/png;base64,{{ plateau_image }}" 
+                             alt="Plateau de jeu Agent Trouble - {{ lieu_description if lieu_description else 'Vue générale' }}" 
+                             class="plateau-image">
+                    {% else %}
+                        <div style="text-align: center; color: #94a3b8; padding: 60px;">
+                            <div style="font-size: 4rem;">🗺️</div>
+                            <p>Plateau en cours de chargement...</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

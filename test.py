@@ -16,7 +16,7 @@ def join_game(game_code):
         players[player_id] = {"game": game_code, "pseudo": pseudo, "carte": None}
 
         # On stocke l'UUID dans un cookie
-        resp = make_response(redirect("/game"))
+        resp = make_response("sssss")
         resp.set_cookie("player_id", player_id, httponly=True)
         return resp
 

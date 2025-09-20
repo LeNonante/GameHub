@@ -1,8 +1,5 @@
 - Regles INSIDER a refaire
 
-- Ameliorer style paramètres et verfier bornes du nb de lieux 
-
 - enlever etat de bdd PartiesAT
 - Refaire la suppressions de games
 - Mettre sur la page de join si pas inscrit
-

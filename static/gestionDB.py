@@ -274,7 +274,39 @@ def getSessionsByGameCode(gameCode):
     sessions = [x[0] for x in result]
     return sessions
 
-def createAgentTroublePartie(GameCode):
+def setParamsPartieByCode(codePartie, params):
+    """
+    Met à jour les paramètres d'une partie en fonction de son code.
+    Args:
+        codePartie (str): Le code de la partie.
+        params (str): Les paramètres de la partie au format JSON.
+    """
+    curseur = create_connection(cheminDB)
+    query = f"UPDATE Parties SET Params = '{params}' WHERE GameCode = '{codePartie}'"
+    curseur.execute(query)
+    curseur.connection.commit()
+    curseur.close()
+    close_connection()
+
+def getParamsPartieByCode(codePartie):
+    """
+    Récupère les paramètres d'une partie en fonction de son code.
+    Args:
+        codePartie (str): Le code de la partie.
+    Returns:
+        dict: Les paramètres de la partie au format dictionnaire, ou None si la partie n'existe pas.
+    """
+    curseur = create_connection(cheminDB)
+    query = f"SELECT Params FROM Parties WHERE GameCode = '{codePartie}'"
+    result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
+    if result:
+        return result
+    return None
+
+
+def createAgentTroublePartie(GameCode, nbLieux):
     """
     Crée une nouvelle partie du jeu "Agent Trouble" en récupérant les infos de la game et les ajoutant dans la table PartiesAgentTrouble et JoueursAgentTrouble.
     Args:
@@ -282,7 +314,7 @@ def createAgentTroublePartie(GameCode):
     """
     listeSessions=getSessionsByGameCode(GameCode)#On récupère les sessions des joueurs de la partie
     
-    infosPartie, bytesImages=genererPartieAgentTrouble(len(listeSessions),10,GameCode) #On récupère les infos de la partie AT
+    infosPartie, bytesImages=genererPartieAgentTrouble(len(listeSessions),nbLieux,GameCode) #On récupère les infos de la partie AT
     
     dicoFinal={}#Affecte les valeurs des 'items' agent trouble aux sessions
     for i in range(len(listeSessions)): #On lie les sessions aux joueurs d'AT

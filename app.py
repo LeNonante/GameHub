@@ -4,15 +4,20 @@ import markdown
 import uuid
 from static.gestionDB import *
 import base64
+import os
+import shutil
 
 app = Flask(__name__)
 
 # Configuration des jeux
 with open('static/data/games_infos.json', encoding='utf-8') as f:
     GAMES = json.load(f)
+    
+db_path = 'static/data/gamehub.db'
+db_template = 'static/data/gamehub_vierge.db'
 
-for game in GAMES:
-    print(game['image'])
+if not os.path.exists(db_path):
+    shutil.copy(db_template, db_path)
 
 
 @app.route('/')
@@ -24,7 +29,6 @@ def game_detail(game_id, erreur=""):
     erreur = request.args.get('erreur', '')
     game = next((g for g in GAMES if g['id'] == game_id), None)
     if game:
-        print(game['image'])
         # Convertir le markdown des règles en HTML
         game_copy = game.copy()
         with open(game['rules'], encoding='utf-8') as rules_file:
@@ -56,8 +60,11 @@ def create_or_join():
             return redirect(url_for("game", game_code=codePartie))
         else :
             if isCodeValid(codePartie):
-                addJoueurToPartie(codePartie, session, pseudo) #Ajoute le joueur qui crée la partie
-                return redirect(url_for("game", game_code=codePartie))
+                if getEtatPartieByCode(codePartie)!=0: #Si la partie n'est pas en état "en attente"
+                    return redirect(url_for("game_detail", game_id=game_id, erreur="La partie a déjà commencé ou est terminée"))
+                else :
+                    addJoueurToPartie(codePartie, session, pseudo) #Ajoute le joueur qui crée la partie
+                    return redirect(url_for("game", game_code=codePartie))
             else:
                 return redirect(url_for("game_detail", game_id=game_id, erreur="Code de partie invalide"))
     else:
@@ -68,7 +75,21 @@ def create_or_join():
 def lancementgame():
 
     codePartie = request.form.get('gameCode', '')
-    print("CODE PARTIIIIIIE", codePartie)
+    game_id=getGameIdByCode(codePartie)
+    
+    if game_id == 1 : #Agent trouble
+        nb_lieux = request.form.get('nb_lieux', 30)
+        if nb_lieux.isdigit() and 2 <= int(nb_lieux) <= 30:
+            nb_lieux = int(nb_lieux)
+        elif int(nb_lieux) >30:
+            nb_lieux = 30  # Valeur par défaut
+        else:
+            nb_lieux = 2  # Valeur minimale
+        params=[nb_lieux]
+
+    
+    params_text = json.dumps(params)  # Convertir la liste en chaîne JSON
+    setParamsPartieByCode(codePartie, params_text)  # Enregistrer les
     setEtatPartieByCode(codePartie, 1) #On passe l'état de la partie à "lancée"
     return redirect(url_for("game",game_code=codePartie))
 
@@ -76,7 +97,7 @@ def lancementgame():
 
 @app.route('/<game_code>') #Page de setup ajout des joueurs et de jeu (en fonction de la variable "Etat" dans la DB)
                             #Verifier Cookie sinon envoyer sur la page d'accueil
-def game(game_code):
+def game(game_code):#param est fourni quand cette fonction est lancée pour configurer la partie (par lancementgame)
     game_id=getGameIdByCode(game_code)
     hote=getSessionHoteByGameCode(game_code)
     session=request.cookies.get("player_id")
@@ -92,7 +113,9 @@ def game(game_code):
             else:
                 nbMinimalJoueurAtteint=False
             if isCodeValid(game_code):
-                return render_template("game_lobby.html", game_code=game_code, nbMinimalJoueurAtteint=nbMinimalJoueurAtteint, my_pseudo=pseudo, joueurs=listeJoueurs, game_name=game['title'], game_image=game['image'])
+                IsJoueurHost= session==hote
+                game_params=game["params"]
+                return render_template("game_lobby.html", game_code=game_code, nbMinimalJoueurAtteint=nbMinimalJoueurAtteint, my_pseudo=pseudo, joueurs=listeJoueurs, game_name=game['title'], game_image=game['image'], game_params=game_params, IsJoueurHost=IsJoueurHost)
         return "Jeu non trouvé", 404
     
     elif getEtatPartieByCode(game_code)==1 and session==hote: #Si la partie a été lancée, on lance la config pour l'hote
@@ -100,7 +123,10 @@ def game(game_code):
         if game :
             if isCodeValid(game_code):
                 if game_id==1:
-                    createAgentTroublePartie(game_code) #On crée la partie Agent Trouble dans la DB
+                    params_brut=getParamsPartieByCode(game_code)[0][0] #On récupère les paramètres de la partie (ici le nombre de lieux)
+                    params=json.loads(params_brut) #transforme en liste
+                    nb_lieux=params[0] #On récupère le nombre de lieux
+                    createAgentTroublePartie(game_code, nb_lieux) #On crée la partie Agent Trouble dans la DB
                     setEtatPartieByCode(game_code, 2) #On passe l'état de la partie à "configurée"
                     return redirect(url_for('game', game_code=game_code))
                 else:

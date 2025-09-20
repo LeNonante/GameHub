@@ -344,6 +344,10 @@
     align-items: center;
 }
 
+.game-actions-row + .game-actions-row {
+    margin-top: 12px;
+}
+
 .game-input {
     flex: 1;
     padding: 12px 16px;

@@ -1,0 +1,98 @@
+.lobby-container { 
+    max-width: 500px; 
+    margin: 40px auto; 
+    background: #1e293b; 
+    border-radius: 16px; 
+    padding: 32px; 
+    color: white; 
+}
+
+.lobby-title { 
+    font-size: 2rem; 
+    margin-bottom: 20px; 
+}
+
+.lobby-info { 
+    margin-bottom: 24px; 
+}
+
+.players-list { 
+    text-align:left ; 
+    margin-bottom: 24px; 
+}
+
+.players-list li { 
+    margin-bottom: 8px; 
+}
+
+.reload-btn { 
+    padding: 10px 24px; 
+    border-radius: 8px; 
+    background: #3b82f6; 
+    color: white; 
+    border: none; 
+    font-weight: 600; 
+    cursor: pointer; 
+}
+
+.reload-btn:hover { 
+    background: #2563eb; 
+}
+
+.lobby-params-section {
+    background: #334155;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(59,130,246,0.10);
+}
+
+.lobby-params-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #3b82f6;
+    letter-spacing: 1px;
+}
+
+.lobby-param-label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: #f1f5f9;
+}
+
+.lobby-param-input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #3b82f6;
+    background: #1e293b;
+    color: #f1f5f9;
+    margin-top: 4px;
+    margin-bottom: 16px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.lobby-param-input:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+.lobby-launch-btn {
+    padding: 12px 28px;
+    border-radius: 8px;
+    background: linear-gradient(90deg,#3b82f6,#2563eb);
+    color: white;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(59,130,246,0.12);
+    margin-top: 10px;
+}
+
+.lobby-launch-btn:hover {
+    background: linear-gradient(90deg,#2563eb,#3b82f6);
+}

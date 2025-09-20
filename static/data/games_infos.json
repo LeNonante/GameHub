@@ -6,7 +6,15 @@
         "image": "/static/ressourcesJeux/AgentTrouble/AgentTrouble.png",
         "min_players": 3,
         "max_players": 8,
-        "rules": "static/ressourcesJeux/AgentTrouble/rules.md"
+        "rules": "static/ressourcesJeux/AgentTrouble/rules.md",
+        "params" : [
+                    {
+                        "label": "Nombre de lieux (2 - 30)",
+                        "name": "nb_lieux",
+                        "type": "number",
+                        "value": 30
+                    }
+                ]
     },
     {
         "id": 2,
@@ -15,7 +23,15 @@
         "image": "/static/ressourcesJeux/Insider/Insider.png",
         "min_players": 4,
         "max_players": 8,
-        "rules": "static/ressourcesJeux/Insider/rules.md"
+        "rules": "static/ressourcesJeux/Insider/rules.md",
+        "params" : [
+            {
+                "label": "Nombre de manches",
+                "name": "nb_manches",
+                "type": "number",
+                "value": 3
+            }
+        ]
     },
     {
         "id": 3,
@@ -24,6 +40,14 @@
         "image": "/static/ressourcesJeux/AgentTrouble/AgentTrouble.png",
         "min_players": 3,
         "max_players": 8,
-        "rules": "static/ressourcesJeux/AgentTrouble/rules.md"
+        "rules": "static/ressourcesJeux/AgentTrouble/rules.md",
+        "params" : [
+            {
+                "label": "Nombre de manches",
+                "name": "nb_manches",
+                "type": "number",
+                "value": 3
+            }
+        ]
     }
 ]

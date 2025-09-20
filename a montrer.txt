@@ -1,0 +1,6 @@
+- Pas d'usurpation d'identité
+- Rejoindre une partie lancée
+- Marche pas Sans pseudo
+-   //    Mauvais code
+- Seul l'host peut lancer
+- Reprend la partie meme en redemarrant 

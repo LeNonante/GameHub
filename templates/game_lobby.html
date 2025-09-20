@@ -5,15 +5,7 @@
     <title>Lobby de la partie</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/game_detail.css') }}">
-    <style>
-        .lobby-container { max-width: 500px; margin: 40px auto; background: #1e293b; border-radius: 16px; padding: 32px; color: white; }
-        .lobby-title { font-size: 2rem; margin-bottom: 20px; }
-        .lobby-info { margin-bottom: 24px; }
-        .players-list { text-align:left ; margin-bottom: 24px; }
-        .players-list li { margin-bottom: 8px; }
-        .reload-btn { padding: 10px 24px; border-radius: 8px; background: #3b82f6; color: white; border: none; font-weight: 600; cursor: pointer; }
-        .reload-btn:hover { background: #2563eb; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_lobby.css') }}">
 </head>
 <body>
     <div class="container">
@@ -37,6 +29,26 @@
             <img src="{{ game_image }}" alt="{{ game_name }}" style="width:120px; height:120px; border-radius:16px; box-shadow:0 8px 24px rgba(59,130,246,0.18); object-fit:cover; background:#334155; border:3px solid #3b82f6;">
             <h2 style="font-size:2.2rem; font-weight:800; color:#f1f5f9; margin:18px 0 0 0; background:linear-gradient(135deg,#f1f5f9,#3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">{{ game_name }}</h2>
         </div>
+        <div class="lobby-container lobby-params-section">
+            {% if IsJoueurHost %}
+                <div class="lobby-params-title">Paramètres de la partie</div>
+                <form method="POST" action="/lancementgame">
+                    {% for param in game_params %}
+                        <label class="lobby-param-label">
+                            {{ param.label }} :
+                            <input class="lobby-param-input" type="{{ param.type }}" name="{{ param.name }}" value="{{ param.value }}">
+                        </label>
+                    {% endfor %}
+                    <input type="hidden" name="gameCode" value={{ game_code }}>
+                    {% if nbMinimalJoueurAtteint %}
+                        <button type="submit" class="lobby-launch-btn" name="action" value="Launch">Lancer la partie</button>
+                    {% endif %}
+                </form>
+            {% else %}
+                <p style="color:#BF4141FF">Seul l'hote peut modifier les paramètres et lancer la partie.</p>
+            {% endif %}
+        </div>
+
         <div class="lobby-container">
             <div class="lobby-info">
                 <strong>Code de la partie :</strong> {{ game_code }}<br>
@@ -51,12 +63,6 @@
                 </ul>
             </div>
             <button class="reload-btn" onclick="window.location.reload();">Recharger la page</button>
-            {% if nbMinimalJoueurAtteint %}
-                <form method="POST" action="/lancementgame">
-                    <input type="hidden" name="gameCode" value={{ game_code }}>
-                    <button type="submit" class="reload-btn" name="action" value="Launch">Lancer la partie</button>
-                </form>
-            {% endif %}
         </div>
     </div>
 </body>

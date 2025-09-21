@@ -102,6 +102,9 @@ def game(game_code):#param est fourni quand cette fonction est lancée pour conf
     hote=getSessionHoteByGameCode(game_code)
     session=request.cookies.get("player_id")
     if (getEtatPartieByCode(game_code)==0 ) or (getEtatPartieByCode(game_code)==1 and session!=hote): #Si la partie est pas encore lancée
+        if session not in getSessionsByGameCode(game_code): #Si le joueur n'est pas dans la partie, on le redirige
+            return redirect(url_for('game_detail', game_id=game_id, erreur="Vous n'êtes pas dans cette partie"))
+        
         game = next((g for g in GAMES if g['id'] == game_id), None)
         pseudo=getPseudoBySessionAndGameCode(session, game_code)
         if game :

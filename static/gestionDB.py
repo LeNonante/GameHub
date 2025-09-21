@@ -16,7 +16,7 @@ def create_connection(db_file):
     :return: objet connexion ou None
     """
     global connexion
-    connexion = sqlite3.connect(db_file)
+    connexion = sqlite3.connect(db_file, check_same_thread=False)
     curseur = connexion.cursor()
     return curseur
 

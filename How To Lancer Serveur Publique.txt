@@ -1,0 +1,9 @@
+Lancer le serveur flask
+Lancer le tunnel avec
+    lt --port 5000
+
+Recuperer le mdp sur le site :
+    https://loca.lt/mytunnelpassword
+
+Pour kill le tunnel :
+    Ctrl c dans le terminal lancé

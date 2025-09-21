@@ -22,7 +22,7 @@ class Joueur():
         self.role=role
         self.num=numero
         if self.role=="ESPION" :
-            self.carte=cheminAssetsAgentTrouble+"CartesJoueurs/Agent.jpg"
+            self.carte=cheminAssetsAgentTrouble+"CartesJoueurs/Agent2.jpg"
         else :
             #On construit le lien de la carte grace aux infos du joueur
             texte1=InfosLieux[self.numLieu][0]

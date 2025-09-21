@@ -1,9 +1,13 @@
+Installation des outils:
+    npm install -g localtunnel (en ayant nodejs d'installé)
+-----------------------------------------------------------------------------------------------------------
 Lancer le serveur flask
 Lancer le tunnel avec
     lt --port 5000
 
 Recuperer le mdp sur le site :
     https://loca.lt/mytunnelpassword
+    Ou avec la commande "wget -qO- https://api.ipify.org | xargs echo" car le mdp est l'adresse IP publique
 
 Pour kill le tunnel :
     Ctrl c dans le terminal lancé

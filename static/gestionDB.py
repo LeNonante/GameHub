@@ -323,8 +323,21 @@ def createAgentTroublePartie(GameCode, nbLieux):
     curseur = create_connection(cheminDB)
     # Ajouter les infos des joueurs à la table "JoueursAgentTrouble"
     for session, infos in dicoFinal.items():
+        # Avant la f-string, préparez les valeurs "échappées"
+        safe_session = session
+        safe_lieu    = infos[0].replace("'", "''")
+        safe_role    = infos[1].replace("'", "''")
+        safe_carte   = infos[2]  # ou .replace si nécessaire
+        safe_game    = GameCode
 
-        query_insert = f'INSERT INTO JoueursAgentTrouble (session, lieu, role, carte, GameCode) VALUES (\'{session}\', \'{infos[0].replace("\'", "\'\'")}\', \'{infos[1].replace("\'", "\'\'")}\', \'{infos[2]}\', \'{GameCode}\')'
+        # Puis construisez la requête en une seule f-string sans antislashs
+        query_insert = (
+            f"INSERT INTO JoueursAgentTrouble "
+            f"(session, lieu, role, carte, GameCode) "
+            f"VALUES ('{safe_session}', '{safe_lieu}', '{safe_role}', '{safe_carte}', '{safe_game}')"
+        )
+        
+        #query_insert = f'INSERT INTO JoueursAgentTrouble (session, lieu, role, carte, GameCode) VALUES (\'{session}\', \'{infos[0].replace("\'", "\'\'")}\', \'{infos[1].replace("\'", "\'\'")}\', \'{infos[2]}\', \'{GameCode}\')'
         curseur.execute(query_insert)
     # Ajouter les infos de la partie à la table "PartiesAgentTrouble"
     query_insert = f"INSERT INTO PartiesAgentTrouble (GameCode, Etat, imagePlateau) VALUES (?, ?, ?)"

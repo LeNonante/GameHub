@@ -73,11 +73,9 @@ Le projet utilise un schéma SQLite relationnel avec les tables principales :
 
 ## 🌐 Jouer en ligne
 
-**🎮 [Accéder à GameHub]()**
+**🎮 [Accéder à GameHub](https://gamehub.lenonante.qzz.io)**
 
 La plateforme est accessible directement depuis votre navigateur, aucune installation requise !
-
-⚠️ Pour l'instant il n'existe pas d'dresse publique permettant l'accès à GameHub. Pour Rejoindre une partie à distance, une personne doit lancer le serveur Flask et creer un tunnel (descriptif rapide des étapes dans ```How To Lancer Serveur Publique.txt```
 
 ## 🚀 Installation et lancement en local
 

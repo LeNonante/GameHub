@@ -2,6 +2,8 @@ import sqlite3
 from sqlite3 import Error
 import random
 import datetime
+import shutil
+import os
 
 if __name__ == "__main__":
     from ressourcesJeux.AgentTrouble.AgentTroubleFunctions import *
@@ -10,6 +12,20 @@ else :
 
 cheminDB="static/data/gamehub.db"
 connexion=""
+
+def resetDB():
+    """
+    Réinitialise la base de données en copiant le fichier de base de données vierge.
+    """
+    global cheminDB, connexion
+    if connexion:
+        connexion.close()
+        connexion = ""
+    db_template = 'static/data/gamehub_vierge.db'
+    if os.path.exists(cheminDB):
+        os.remove(cheminDB)
+    shutil.copy(db_template, cheminDB)
+
 def create_connection(db_file):
     """ crée une connexion à la base de données SQLite
     :param db_file: chemin vers la base de données SQLite

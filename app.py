@@ -3,6 +3,7 @@ import json
 import markdown
 import uuid
 from static.gestionDB import *
+from static.gestionAccess import *
 import base64
 import os
 import shutil
@@ -19,6 +20,8 @@ db_template = 'static/data/gamehub_vierge.db'
 if not os.path.exists(db_path):
     shutil.copy(db_template, db_path)
 
+if not isThereAdmin():
+    initAdmin()
 
 @app.route('/')
 def index():

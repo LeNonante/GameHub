@@ -45,7 +45,7 @@ GameHub/
 │   │
 │   ├── gestionDB.py           # 🗄️ Fonctions base de données
 │   ├── gestionAccess.py       # 🔒 Fonctions de gestion des controles des accès admin etc.
-│   ├── .env                   # 🗄️ fichier des variables d'environnement (à ajouter)
+│   ├── .env                   # 🗄️ fichier des variables d'environnement
 │   └── ressourcesJeux/        # 🖼️ Assets des jeux
 │       └── <NomDuJeu>/
 │           ├── assets/        # Images etc
@@ -103,7 +103,11 @@ La plateforme est accessible directement depuis votre navigateur, aucune install
    ```
 
 6. **Accédez à l'interface** : [http://localhost:5000](http://localhost:5000)
-   La première connexion sur la page principale vous demandera de créer un utilisateur administrateur.
+   /!\ A la première connection, le compte admin est le suivant :
+   ```bash
+   Username : admin
+   Password : adminpass
+   ```
 
 ## 🛠️ Technologies utilisées
 

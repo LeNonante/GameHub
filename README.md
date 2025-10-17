@@ -108,7 +108,7 @@ La plateforme est accessible directement depuis votre navigateur, aucune install
    Username : admin
    Password : adminpass
    ```
-   A vous de vous rendre dans la pgae d'administration pour changer le mot de passe.
+   A vous de vous rendre dans la page d'administration pour changer le mot de passe.
 
 ## 🛠️ Technologies utilisées
 

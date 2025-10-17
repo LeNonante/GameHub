@@ -103,11 +103,12 @@ La plateforme est accessible directement depuis votre navigateur, aucune install
    ```
 
 6. **Accédez à l'interface** : [http://localhost:5000](http://localhost:5000)
-   /!\ A la première connection, le compte admin est le suivant :
+   /!\ A la première connexion, le compte admin est le suivant :
    ```bash
    Username : admin
    Password : adminpass
    ```
+   A vous de vous rendre dans la pgae d'administration pour changer le mot de passe.
 
 ## 🛠️ Technologies utilisées
 

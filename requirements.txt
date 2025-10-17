@@ -3,3 +3,5 @@ markdown
 pillow
 requests
 gunicorn
+dotenv
+Werkzeug

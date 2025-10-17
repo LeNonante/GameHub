@@ -44,6 +44,8 @@ GameHub/
 │   │   └── database.db.sql    # 📋 Schéma de la base
 │   │
 │   ├── gestionDB.py           # 🗄️ Fonctions base de données
+│   ├── gestionAccess.py       # 🔒 Fonctions de gestion des controles des accès admin etc.
+│   ├── .env                   # 🗄️ fichier des variables d'environnement (à ajouter)
 │   └── ressourcesJeux/        # 🖼️ Assets des jeux
 │       └── <NomDuJeu>/
 │           ├── assets/        # Images etc
@@ -95,12 +97,13 @@ La plateforme est accessible directement depuis votre navigateur, aucune install
    pip install -r requirements.txt
    ```
 
-4. **Lancez l'application** :
+3. **Lancez l'application** :
    ```bash
    python app.py
    ```
 
-5. **Accédez à l'interface** : [http://localhost:5000](http://localhost:5000)
+6. **Accédez à l'interface** : [http://localhost:5000](http://localhost:5000)
+   La première connexion sur la page principale vous demandera de créer un utilisateur administrateur.
 
 ## 🛠️ Technologies utilisées
 

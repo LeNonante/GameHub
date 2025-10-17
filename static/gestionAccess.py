@@ -5,6 +5,26 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 chemin_env="static/.env"
 
+def isThereASecretKey() :
+    #Recuperation du .env
+    load_dotenv(chemin_env)
+    secret_key = os.getenv("SECRET_KEY", "") #recuperation de la variable, ou initilisation
+    if secret_key != "" : #si il y a une clef
+        return True
+    else :
+        return False
+
+def setSecretKey(key) :
+    #Enregistrement de la clef secrete
+    load_dotenv(chemin_env) #Ouverture du .env
+    set_key(chemin_env, "SECRET_KEY", key) #on enregistre
+
+def getSecretKey() :
+    #Recuperation de la clef secrete
+    load_dotenv(chemin_env) #Ouverture du .env
+    secret_key = os.getenv("SECRET_KEY", "") #recuperation de la variable, ou initilisation
+    return secret_key
+
 def isThereAdmin() :
     #Recuperation du .env
     load_dotenv(chemin_env)

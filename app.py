@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, make_response
+from flask import Flask, render_template, redirect, url_for, request, make_response, session
 import json
 import markdown
 import uuid
@@ -7,6 +7,7 @@ from static.gestionAccess import *
 import base64
 import os
 import shutil
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -22,6 +23,14 @@ if not os.path.exists(db_path):
 
 if not isThereAdmin():
     initAdmin()
+
+if not isThereASecretKey(): #Si pas de clef secrete (utilisée pour les sessions)
+    # Générer une clé secrète aléatoire et la stocker dans le .env
+    secret_key = os.urandom(24).hex()
+    setSecretKey(secret_key)#Enregistrer la clef dans le .env
+    app.secret_key=secret_key #Enregistrer la clef dans l'app
+else :
+    app.secret_key=getSecretKey() #Lire la clef dans le .env et l'enregistrer dans l'app
 
 @app.route('/')
 def index():
@@ -183,6 +192,45 @@ def game(game_code):#param est fourni quand cette fonction est lancée pour conf
 def game_logs(game_code):
     liste_colonnes, liste_resultats  = getLogsByGameCode(game_code)
     return render_template("game_logs.html", colonnes=liste_colonnes, resultats=liste_resultats)
+
+
+def login_required(f): #Création d'un décorateur pour les pages admin. Si pas connecté, redirige vers la page de login
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "user" not in session:
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+
+
+
+@app.route("/login", methods=["GET", "POST"]) #Page de login admin
+def login():
+    if request.method == "POST":
+        pseudo = request.form["pseudo"].lower()
+        mdp = request.form["password"]
+
+        if checkLoginAdmin(pseudo, mdp):
+            session["user"] = pseudo
+            return redirect(url_for("dashboard"))
+        else:
+            return "Login incorrect", 401
+
+    return render_template("login.html")
+
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return f"Bienvenue {session['user']} sur le dashboard !"
+
+@app.route("/logout")
+@login_required
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
 
 
 if __name__ == '__main__':

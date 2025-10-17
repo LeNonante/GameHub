@@ -3,6 +3,6 @@ markdown
 pillow
 requests
 gunicorn
-dotenv
+python-dotenv
 Werkzeug
 functools

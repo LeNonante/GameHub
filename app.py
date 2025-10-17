@@ -34,6 +34,7 @@ else :
 
 @app.route('/')
 def index():
+    print(GAMES)
     return render_template('index.html', games=GAMES)
 
 @app.route('/game/<int:game_id>') #Description / Règles 
@@ -186,12 +187,6 @@ def game(game_code):#param est fourni quand cette fonction est lancée pour conf
                 else:
                     return "Page de jeu non encore disponible"
         return "Jeu non trouvé", 404
-    
-
-@app.route('/<game_code>/logs') #Page de logs
-def game_logs(game_code):
-    liste_colonnes, liste_resultats  = getLogsByGameCode(game_code)
-    return render_template("game_logs.html", colonnes=liste_colonnes, resultats=liste_resultats)
 
 
 def login_required(f): #Création d'un décorateur pour les pages admin. Si pas connecté, redirige vers la page de login
@@ -200,9 +195,13 @@ def login_required(f): #Création d'un décorateur pour les pages admin. Si pas 
         if "user" not in session:
             return redirect(url_for("login"))
         return f(*args, **kwargs)
-    return decorated_function
+    return decorated_function    
 
-
+@app.route('/<game_code>/logs') #Page de logs
+@login_required
+def game_logs(game_code):
+    liste_colonnes, liste_resultats  = getLogsByGameCode(game_code)
+    return render_template("game_logs.html", colonnes=liste_colonnes, resultats=liste_resultats)
 
 
 
@@ -214,17 +213,45 @@ def login():
 
         if checkLoginAdmin(pseudo, mdp):
             session["user"] = pseudo
-            return redirect(url_for("dashboard"))
+            return redirect(url_for("admin"))
         else:
-            return "Login incorrect", 401
+            return render_template("login.html", erreur="Identifiants invalides")
 
     return render_template("login.html")
 
 
-@app.route("/dashboard")
+@app.route("/admin", methods=["GET", "POST"])
 @login_required
-def dashboard():
-    return f"Bienvenue {session['user']} sur le dashboard !"
+def admin():
+    parties=getAllPartiesForAdminPanel()
+    if request.method == "POST":
+        if request.form.get("action")=="changeAdminPassword":
+            old_password = request.form["old_password"]
+            new_password = request.form["new_password"]
+            confirm_password = request.form["confirm_password"]
+            if new_password != confirm_password:
+                return render_template("admin.html", changePasswordError="Les nouveaux mots de passe ne correspondent pas", parties=parties)
+            if not checkLoginAdmin(session["user"], old_password):
+                return render_template("admin.html", changePasswordError="Ancien mot de passe incorrect", parties=parties)
+            
+            if checkLoginAdmin(session["user"], old_password):
+                changeAdmin(old_password, new_password)
+                return render_template("admin.html", changePasswordMessage="Mot de passe changé avec succès", parties=parties)
+
+        if request.form.get("action")=="resetDB":
+            resetDB()
+            return render_template("admin.html", parties=parties)
+        
+        if request.form.get("action")=="deletePartie":
+            game_code=request.form.get("gameCode", '')
+            deletePartie(game_code)
+            return render_template("admin.html", parties=parties)
+        
+        if request.form.get("action")=="logs":
+            game_code=request.form.get("gameCode", '')
+            return redirect(url_for("game_logs", game_code=game_code))
+            
+    return render_template("admin.html", parties=parties)
 
 @app.route("/logout")
 @login_required

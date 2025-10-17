@@ -15,16 +15,16 @@ connexion=""
 
 def resetDB():
     """
-    Réinitialise la base de données en copiant le fichier de base de données vierge.
+    Réinitialise la base de données supprimant chaque parties.
     """
-    global cheminDB, connexion
-    if connexion:
-        connexion.close()
-        connexion = ""
-    db_template = 'static/data/gamehub_vierge.db'
-    if os.path.exists(cheminDB):
-        os.remove(cheminDB)
-    shutil.copy(db_template, cheminDB)
+    curseur = create_connection(cheminDB)
+
+    query = f"DELETE FROM Parties;"
+    curseur.execute(query)
+
+    curseur.connection.commit()
+    curseur.close()
+    close_connection()
 
 def create_connection(db_file):
     """ crée une connexion à la base de données SQLite
@@ -74,6 +74,33 @@ def isCodeValid(codePartie):
     close_connection()
     return len(result) > 0
 
+def getAllPartiesForAdminPanel():
+    """
+    Récupère toutes les parties pour l'affichage dans le panneau d'administration.
+    Returns:
+        list: Une liste de dictionnaires contenant les informations des parties (code, nom du jeu, état, nombre de joueurs, nombre maximum de joueurs).
+    """
+    dict_etat = {
+        '0': 'En attente',
+        '1': 'En configuration',
+        '2': 'Lancée'
+    }
+    
+    curseur = create_connection(cheminDB)
+    query = "SELECT Parties.GameCode, Jeux.GameName, Parties.EtatLancement FROM Parties LEFT JOIN Jeux ON Parties.JeuId = Jeux.Id"
+    result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
+    
+    parties = []
+    for row in result:
+        parties.append({
+            'code': row[0],
+            'jeu_nom': row[1],
+            'etat': dict_etat[str(row[2])]
+        })
+    return parties
+
 def deletePartie(codePartie):
     """
     Supprime une partie de la table "Parties" et de la table spécifique a son jeu, ainsi que ses joueurs de la table joueurs générale et celle spécifique à son jeu en fonction du code de la partie.
@@ -81,20 +108,8 @@ def deletePartie(codePartie):
         codePartie (str): Le code de la partie à supprimer.
     """
     curseur = create_connection(cheminDB)
-    NomJeu=execute_query(curseur, f"SELECT GameName FROM Parties JOIN Jeux ON Parties.JeuId = Jeux.Id WHERE GameCode = '{codePartie}'")[0][0]
-    tableJeu = "Parties"+NomJeu  # Nom de la table spécifique au jeu
-    tableJoueursJeu = "Joueurs"+NomJeu  # Nom de la table spécifique au jeu
-    
-    # Supprimer les joueurs de la table spécifique au jeu
-    query = f"DELETE FROM {tableJoueursJeu} WHERE GameCode = '{codePartie}';"
-    curseur.execute(query)
-    # Supprimer la partie de la table spécifique au jeu
-    query = f"DELETE FROM {tableJeu} WHERE GameCode = '{codePartie}'"
-    curseur.execute(query)
 
     query = f"DELETE FROM Parties WHERE GameCode = '{codePartie}'"
-    curseur.execute(query)
-    query = f"DELETE FROM Joueurs WHERE GameCode = '{codePartie}'"
     curseur.execute(query)
 
     curseur.connection.commit()

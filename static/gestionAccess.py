@@ -41,6 +41,8 @@ def initAdmin() :
     AdminUsers["admin"] = generate_password_hash("adminpass") #ajout de l'admin par défaut
     admin_users_str = json.dumps(AdminUsers) #on transforme en STR
     set_key(chemin_env, "Admin_Users", admin_users_str) #on enregistre
+    # Met à jour l'environnement du process pour prise en compte immédiate
+    os.environ["Admin_Users"] = admin_users_str
 
 def checkLoginAdmin(user, password) :
     user=user.lower()
@@ -59,7 +61,9 @@ def changeAdmin(old_password, new_password):
         AdminUsers["admin"] = generate_password_hash(new_password) #on met a jour le mot de passe
         admin_users_str = json.dumps(AdminUsers) #on transforme en STR
         set_key(chemin_env, "Admin_Users", admin_users_str) #on enregistre
+        # Met à jour l'environnement du process pour que le nouveau mdp soit pris en compte immédiatement
+        os.environ["Admin_Users"] = admin_users_str
         return True
     else :
         return False
-    
+

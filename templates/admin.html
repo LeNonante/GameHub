@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Game Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header avec logo -->
+        <header class="header">
+            <div class="logo">
+                <h1 class="logo-text">ADMIN</h1>
+                <div class="logo-icon">⚙️</div>
+                <h1 class="logo-text">PANEL</h1>
+            </div>
+            <div class="admin-info">
+                <div class="left-controls">
+                    <a href="/" class="home-btn">Retour Accueil</a>
+                </div>
+                <div class="right-controls">
+                    <a href="/logout" class="logout-btn">Déconnexion</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenu principal -->
+        <main class="admin-content">
+            <!-- Tableau des parties (gauche) -->
+            <div class="parties-section">
+                <h2 class="section-title">🎮 Parties en cours</h2>
+                <div class="table-container">
+                    <table class="parties-table">
+                        <thead>
+                            <tr>
+                                <th>Code Partie</th>
+                                <th>Jeu</th>
+                                <th>État</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for partie in parties %}
+                            <tr>
+                                <td class="code-partie">{{ partie.code }}</td>
+                                <td class="jeu-nom">{{ partie.jeu_nom }}</td>
+                                <td>
+                                    <span class="etat-badge etat-{{ partie.etat.lower() }}">
+                                        {{ partie.etat }}
+                                    </span>
+                                </td>
+                                <td class="actions">
+                                    <form method="POST" action="/admin" style="display:inline;">
+                                        <input type="hidden" name="gameCode" value="{{ partie.code }}">
+                                        <button class="btn-action view" name="action" value="logs">👁️</button>
+                                        <button class="btn-action delete" name="action" value="deletePartie">🗑️</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="no-data">Aucune partie en cours</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Panneau de contrôle (droite) -->
+            <div class="control-panel">
+                <!-- Changement de mot de passe -->
+                <div class="password-section">
+                    <h3 class="panel-title">🔐 Changer le mot de passe</h3>
+                    <form class="password-form" method="POST" action="/admin">
+                        <div class="input-group">
+                            <label for="old-password">Ancien mot de passe</label>
+                            <input type="password" id="old-password" name="old_password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="new-password">Nouveau mot de passe</label>
+                            <input type="password" id="new-password" name="new_password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="confirm-password">Confirmer le mot de passe</label>
+                            <input type="password" id="confirm-password" name="confirm_password" required>
+                        </div>
+                        {% if changePasswordError %}
+                            <div class="error-message">{{ changePasswordError }}</div>
+                        {% endif %}
+                        {% if changePasswordMessage %}
+                            <div class="confirmed-message">{{ changePasswordMessage }}</div>
+                        {% endif %}
+                        <button type="submit" class="btn-change-password" name="action" value="changeAdminPassword">Changer le mot de passe</button>
+                    </form>
+                </div>
+
+                <!-- Zone de danger -->
+                <div class="danger-section">
+                    <h3 class="panel-title danger">⚠️ Zone de danger</h3>
+                    <p class="danger-warning">
+                        Attention : Cette action supprimera toutes les parties et données de la base.
+                    </p>
+                    <form method="POST" action="/admin" >
+                        <button class="btn-reset-db" type="submit" name="action" value="resetDB">
+                            🗑️ Reset complet de la base
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de confirmation -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h3>Confirmer l'action</h3>
+            <p id="confirmMessage"></p>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal()">Annuler</button>
+                <button class="btn-confirm" onclick="executeAction()">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -240,12 +240,12 @@ def admin():
 
         if request.form.get("action")=="resetDB":
             resetDB()
-            return render_template("admin.html", parties=parties)
+            return redirect(url_for("admin"))
         
         if request.form.get("action")=="deletePartie":
             game_code=request.form.get("gameCode", '')
             deletePartie(game_code)
-            return render_template("admin.html", parties=parties)
+            return redirect(url_for("admin"))
         
         if request.form.get("action")=="logs":
             game_code=request.form.get("gameCode", '')

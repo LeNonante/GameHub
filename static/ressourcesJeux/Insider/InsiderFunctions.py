@@ -1,9 +1,8 @@
-from random import *
-import os
+from random import shuffle
 
 cheminAssetsInsider="static/ressourcesJeux/Insider/assets/"
 
-def GenererPartieInsider(NbJoueurs):
+def GenererPartieInsider(NbJoueurs, NbManches):
     """ Fonction qui genere une partie d'insider en créant envoyant un dico de la forme :
     {Num manche : ([role J1, role J2, etc], MotManche1) """
     #On récupere et mélange les mots
@@ -13,15 +12,15 @@ def GenererPartieInsider(NbJoueurs):
     shuffle(lecture)
     #On récup le nombre de mot necessaire pour chaque manche
     ListeMots=[]
-    for i in range(NbJoueurs):
+    for i in range(NbManches):
         ListeMots.append(lecture[i])
     #on genere les roles de chaque manche
     DicoInfoManche={}
-    for i in range(NbJoueurs):
-        #On creer la liste des roles (Nombre de safe + 1 traitre)
+    for i in range(NbManches):
+        #On creer la liste des roles (Nombre de safe + 1 traitre) pour chaque manche
         listeRoles=["Safe"]*(NbJoueurs-2)
         listeRoles.append("Traitre")
         shuffle(listeRoles)
-        listeRoles.insert(i,"Maitre")
+        listeRoles.insert(i%NbJoueurs,"Maitre")
         DicoInfoManche[i]=(listeRoles,ListeMots[i])
     return DicoInfoManche

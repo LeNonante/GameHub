@@ -7,8 +7,10 @@ import os
 
 if __name__ == "__main__":
     from ressourcesJeux.AgentTrouble.AgentTroubleFunctions import *
+    from ressourcesJeux.Insider.InsiderFunctions import *
 else :
     from static.ressourcesJeux.AgentTrouble.AgentTroubleFunctions import *
+    from static.ressourcesJeux.Insider.InsiderFunctions import *
 
 cheminDB="static/data/gamehub.db"
 connexion=""
@@ -336,7 +338,7 @@ def getParamsPartieByCode(codePartie):
         return result
     return None
 
-
+# Functions spécifiques au jeu "Agent Trouble" --------------------------------------------------------------------------------------------------------------
 def createAgentTroublePartie(GameCode, nbLieux):
     """
     Crée une nouvelle partie du jeu "Agent Trouble" en récupérant les infos de la game et les ajoutant dans la table PartiesAgentTrouble et JoueursAgentTrouble.
@@ -411,3 +413,40 @@ def getPlateauAgentTroubleByGameCode(gameCode):
     if result:
         return result[0][0]
     return None
+
+
+# Functions spécifiques au jeu "Insider" --------------------------------------------------------------------------------------------------------------
+def createInsiderPartie(GameCode, NbManches):
+    listeSessions=getSessionsByGameCode(GameCode)#On récupère les sessions des joueurs de la partie
+    InfosPartie=GenererPartieInsider(len(listeSessions), NbManches) #On récupère les infos de la partie Insider
+    dico_finale={}#Affecte les valeurs des 'items' insider aux sessions plutot qu'aux numeros de manches
+    for i in range(len(listeSessions)): #On lie les sessions aux joueurs d'Insider
+        session=listeSessions[i]
+        liste_roles=[]
+        liste_mots=[]
+        for j in range(NbManches):
+            liste_roles.append(InfosPartie[j][0][i])
+            if InfosPartie[j][0][i]=="Maitre" or InfosPartie[j][0][i]=="Traitre":
+                liste_mots.append(InfosPartie[j][1].strip())
+            else:
+                liste_mots.append("?")
+        dico_finale[session]=(liste_roles, liste_mots)
+
+    curseur = create_connection(cheminDB)
+    # Ajouter les infos des joueurs à la table "JoueursInsider"
+    for session, infos in dico_finale.items():
+        # Avant la f-string, préparez les valeurs "échappées"
+        safe_session = session
+        safe_roles   = ','.join(infos[0]).replace("'", "''")
+        safe_mots    = ','.join(infos[1]).replace("'", "''")
+        safe_game    = GameCode
+
+        # Puis construisez la requête en une seule f-string sans antislashs
+        query_insert = (
+            f"INSERT INTO JoueursInsider "
+            f"(session, roles, mots, GameCode) "
+            f"VALUES ('{safe_session}', '{safe_roles}', '{safe_mots}', '{safe_game}')"
+        )
+        curseur.execute(query_insert)
+    curseur.connection.commit()
+    curseur.close()

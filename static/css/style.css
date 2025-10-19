@@ -191,7 +191,32 @@ body::before {
     color: #cbd5e1;
 }
 
-/* Responsive Design */
+/* Bouton discret pour accéder à la page admin */
+.admin-access{
+    position: absolute;
+    top: 18px;
+    right: 18px;
+}
+.admin-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.04);
+    color: #cbd5e1;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.05rem;
+    border: 1px solid rgba(255,255,255,0.03);
+    opacity: 0.6;
+    transition: opacity .18s ease, transform .12s ease;
+}
+.admin-btn:hover{
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 30px 15px;
@@ -228,6 +253,8 @@ body::before {
     .logo-icon {
         font-size: 2rem;
     }
+    .admin-access{ top: 12px; right: 12px; }
+    .admin-btn{ width: 32px; height: 32px; font-size: 0.95rem; }
 }
 
 /* Animations d'entrée */

@@ -450,3 +450,24 @@ def createInsiderPartie(GameCode, NbManches):
         curseur.execute(query_insert)
     curseur.connection.commit()
     curseur.close()
+
+
+def getInfosInsiderBySessionAndGameCode(session, gameCode):
+    """Récupère les roles et mots d'un joueur Insider pour une partie.
+    Retourne un dict: {'roles': [...], 'mots': [...]} ou None si absent.
+    """
+    curseur = create_connection(cheminDB)
+    query = f"SELECT roles, mots FROM JoueursInsider WHERE session = '{session}' AND GameCode = '{gameCode}'"
+    result = execute_query(curseur, query)
+    curseur.close()
+    close_connection()
+    if not result:
+        return None
+    roles_csv, mots_csv = result[0][0], result[0][1]
+    roles = roles_csv.split(',') if roles_csv else []
+    mots = mots_csv.split(',') if mots_csv else []
+    print(roles, mots)
+    # Nettoyage des espaces
+    roles = [r.strip() for r in roles]
+    mots = [m.strip() for m in mots]
+    return {'roles': roles, 'mots': mots}

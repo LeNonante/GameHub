@@ -89,7 +89,7 @@ def lancementgame():
 
     codePartie = request.form.get('gameCode', '')
     game_id=getGameIdByCode(codePartie)
-    
+    print("Lancement de la partie "+codePartie+" du jeu "+str(game_id))
     if game_id == 1 : #Agent trouble
         nb_lieux = request.form.get('nb_lieux', 30)
         if nb_lieux.isdigit() and 2 <= int(nb_lieux) <= 30:
@@ -99,6 +99,15 @@ def lancementgame():
         else:
             nb_lieux = 2  # Valeur minimale
         params=[nb_lieux]
+    elif game_id == 2 : #Insider
+        nb_manches = request.form.get('nb_manches', 5)
+        if nb_manches.isdigit() and 1 <= int(nb_manches) <= 10:
+            nb_manches = int(nb_manches)
+        elif int(nb_manches) >10:
+            nb_manches = 10  # Valeur par défaut
+        else:
+            nb_manches = 1  # Valeur minimale
+        params=[nb_manches]
 
     
     params_text = json.dumps(params)  # Convertir la liste en chaîne JSON
@@ -145,6 +154,13 @@ def game(game_code):#param est fourni quand cette fonction est lancée pour conf
                     createAgentTroublePartie(game_code, nb_lieux) #On crée la partie Agent Trouble dans la DB
                     setEtatPartieByCode(game_code, 2) #On passe l'état de la partie à "configurée"
                     return redirect(url_for('game', game_code=game_code))
+                if game_id==2: #Insider
+                    params_brut=getParamsPartieByCode(game_code)[0][0] #On récupère les paramètres de la partie (ici le nombre de manches)
+                    params=json.loads(params_brut) #transforme en liste
+                    nb_manches=params[0] #On récupère le nombre de manches
+                    createInsiderPartie(game_code, nb_manches) #On crée la partie Insider dans la DB
+                    setEtatPartieByCode(game_code, 2) #On passe l'état de la partie à "configurée"
+                    return redirect(url_for('game', game_code=game_code))
                 else:
                     return "Page de jeu non encore disponible"
         return "Jeu non trouvé", 404
@@ -154,36 +170,53 @@ def game(game_code):#param est fourni quand cette fonction est lancée pour conf
         if game :
             if isCodeValid(game_code):
                 if game_id==1:
-                        session = request.cookies.get("player_id")
-                        # Vérifications de base
-                        if not session or not isCodeValid(game_code):
-                            return redirect(url_for('index'))
-                        
-                        # Récupération des informations du joueur
-                        pseudo = getPseudoBySessionAndGameCode(session, game_code)
-                        if not pseudo:
-                            return redirect(url_for('index'))
-                        
-                        infos_joueurs = getInfosAgentTroubleBySessionAndGameCode(session, game_code)
+                    session = request.cookies.get("player_id")
+                    # Vérifications de base
+                    if not session or not isCodeValid(game_code):
+                        return redirect(url_for('index'))
+                    
+                    # Récupération des informations du joueur
+                    pseudo = getPseudoBySessionAndGameCode(session, game_code)
+                    if not pseudo:
+                        return redirect(url_for('index'))
+                    
+                    infos_joueurs = getInfosAgentTroubleBySessionAndGameCode(session, game_code)
 
-                        # Images par défaut
-                        player_card_image = infos_joueurs['carte']
-                        player_role = infos_joueurs['role']
-                        lieu = infos_joueurs['lieu']
-                        
-                        # Chargement de l'image plateau
-                        plateau_image_bytes = getPlateauAgentTroubleByGameCode(game_code)
-                        plateau_image = base64.b64encode(plateau_image_bytes).decode('utf-8')
-                        
-                        return render_template('agent_trouble_game.html', 
-                                            game_code=game_code,
-                                            player_name=pseudo,
-                                            player_card_image=player_card_image,
-                                            plateau_image=plateau_image,
-                                            lieu = lieu,
-                                            player_role=player_role,
-                                            game_status="Partie en cours",
-                                            lieu_description="Vue générale du plateau")
+                    # Images par défaut
+                    player_card_image = infos_joueurs['carte']
+                    player_role = infos_joueurs['role']
+                    lieu = infos_joueurs['lieu']
+                    
+                    # Chargement de l'image plateau
+                    plateau_image_bytes = getPlateauAgentTroubleByGameCode(game_code)
+                    plateau_image = base64.b64encode(plateau_image_bytes).decode('utf-8')
+                    
+                    return render_template('agent_trouble_game.html', 
+                                        game_code=game_code,
+                                        player_name=pseudo,
+                                        player_card_image=player_card_image,
+                                        plateau_image=plateau_image,
+                                        lieu = lieu,
+                                        player_role=player_role,
+                                        game_status="Partie en cours",
+                                        lieu_description="Vue générale du plateau")
+                elif game_id==2: #Insider
+                    session = request.cookies.get("player_id")
+                    # Vérifications de base
+                    if not session or not isCodeValid(game_code):
+                        return redirect(url_for('index'))
+                    infos_joueurs = getInfosInsiderBySessionAndGameCode(session, game_code)
+                    roles=infos_joueurs['roles']
+                    mots=infos_joueurs['mots']
+                    
+
+                    return render_template('insider_game.html', 
+                                        game_code=game_code,
+                                        player_name=getPseudoBySessionAndGameCode(session, game_code),
+                                        roles=roles,
+                                        mots=mots,
+                                        nbManche=len(roles))
+                
                 else:
                     return "Page de jeu non encore disponible"
         return "Jeu non trouvé", 404
@@ -261,4 +294,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)

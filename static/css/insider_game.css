@@ -1,2 +1,148 @@
 /* Copie/adaptation du style Agent Trouble pour Insider */
 @import url('agent_trouble_game.css');
+
+.round-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.round-card {
+    background: linear-gradient(135deg, rgba(51, 65, 85, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid rgba(148, 163, 184, 0.3);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.round-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    opacity: 0.6;
+}
+
+/* Couleurs par rôle */
+.round-card.role-traitre {
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+}
+
+.round-card.role-traitre::before {
+    background: linear-gradient(90deg, transparent, #ef4444, transparent);
+}
+
+.round-card.role-maitre {
+    border-color: rgba(168, 85, 247, 0.4);
+    color: #d8b4fe;
+}
+
+.round-card.role-maitre::before {
+    background: linear-gradient(90deg, transparent, #a855f7, transparent);
+}
+
+.round-card.role-safe{
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #93c5fd;
+}
+
+.round-card.role-safe::before {
+    background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+}
+
+.round-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 12px 24px rgba(0, 0, 0, 0.2),
+        0 0 20px currentColor;
+}
+
+/* Structure interne de la carte */
+.round-number {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    opacity: 0.8;
+    text-align: center;
+}
+
+.round-role,
+.round-word {
+    margin-bottom: 16px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border-left: 3px solid currentColor;
+}
+
+.round-word {
+    margin-bottom: 0;
+}
+
+.role-label,
+.word-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+    margin-bottom: 6px;
+}
+
+.role-value,
+.word-value {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: currentColor;
+}
+
+.word-value {
+    font-size: 20px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Animations d'entrée */
+.round-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.round-card:nth-child(1) { animation-delay: 0.1s; }
+.round-card:nth-child(2) { animation-delay: 0.2s; }
+.round-card:nth-child(3) { animation-delay: 0.3s; }
+.round-card:nth-child(4) { animation-delay: 0.4s; }
+.round-card:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .round-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    .round-card {
+        padding: 20px;
+    }
+}

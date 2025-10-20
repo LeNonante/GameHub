@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/game_detail.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/agent_trouble_game.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/insider_game.css') }}">
 </head>
 <body>
     <div class="container">
@@ -42,14 +43,25 @@
                 <!-- Section carte du joueur -->
                 <div class="player-card-section">
                     <h2 class="section-title">Votre Partie</h2>
-                    
-                    {% if nbManche!=0 %}
-                        {% for i in range(nbManche)%}
-                            <p>Manche {{ i+1 }} : Rôle - {{ roles[i] }}, Mot - {{ mots[i] }}</p>
-                        {% endfor %}
-                    {% else %}
-                        <div style="color:#94a3b8; padding:10px;">Aucune manche disponible.</div>
-                    {% endif %}
+                    <div class="round-grid">
+                        {% if nbManche!=0 %}
+                            {% for i in range(nbManche)%}
+                                <div class="round-card role-{{ roles[i]|lower }}">
+                                    <div class="round-number">Manche {{ i+1 }}</div>
+                                    <div class="round-role">
+                                        <span class="role-label">Rôle</span>
+                                        <span class="role-value">{{ roles[i] }}</span>
+                                    </div>
+                                    <div class="round-word">
+                                        <span class="word-label">Mot secret</span>
+                                        <span class="word-value">{{ mots[i] }}</span>
+                                    </div>
+                                </div>        
+                            {% endfor %}
+                        {% else %}
+                            <div style="color:#94a3b8; padding:10px;">Aucune manche disponible.</div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

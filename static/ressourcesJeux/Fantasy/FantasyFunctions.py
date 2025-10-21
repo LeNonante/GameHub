@@ -26,8 +26,6 @@ class Carte():
 class Korrigan(Carte):
     def __init__(self):
         super().__init__("Korrigan", "Vole 2 cartes choisies au hasard dans la main d'un adversaire.")
-    def jouerPouvoir(self, joueur_actif, partie):
-        pass
 
 class Elfe(Carte):
     def __init__(self):
@@ -79,6 +77,7 @@ class Partie():
             #CREATION DES JOUERUS
             dico_joueurs={} #dico qui contient tous les joueurs (eux memes sont des dicos)
             for i in liste_joueurs:
+                print(i)
                 dico_j={}
                 dico_j['main']=[]
                 dico_j['peuple']=[]
@@ -100,9 +99,31 @@ class Partie():
         for nom_joueur in self.joueurs:
             self.piocheCarte(nb, nom_joueur)
     
+    def joueurCarte(self, nom_joueur, index_carte):
+        #EFFET CARTE
+        carte = self.dico['joueurs'][nom_joueur]['main'].pop(index_carte)
+        self.dico['joueurs'][nom_joueur]['peuple'].append(carte)
+
+
+    def echangerMain(self, nom_joueur1, nom_joueur2):
+        temp=self.dico['joueurs'][nom_joueur1]['main']
+        self.dico['joueurs'][nom_joueur1]['main'] = self.dico['joueurs'][nom_joueur2]['main']
+        self.dico['joueurs'][nom_joueur2]['main'] = temp
+
+    
+    def echangerPeuple(self, nom_joueur1, nom_joueur2):
+        temp=self.dico['joueurs'][nom_joueur1]['peuple']
+        self.dico['joueurs'][nom_joueur1]['peuple'] = self.dico['joueurs'][nom_joueur2]['peuple']
+        self.dico['joueurs'][nom_joueur2]['peuple'] = temp
+
     def getDict(self):
         return self.dico
+    
+    
 
-p = Partie({},["ee"])
-p.piocheCarte("ee")
+p = Partie({},["ee","ff"])
+p.joueurCarte("ee",1)
+print(p.getDict())
+p.echangerMain("ee","ff")
+p.echangerPeuple("ee","ff")
 print(p.getDict())

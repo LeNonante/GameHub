@@ -84,11 +84,11 @@ class Partie():
                 dico_j['peuple']=[]
                 dico_joueurs[i]=dico_j
             self.dico['joueurs']=dico_joueurs
-            print(self.dico)
             #chaque joueur pioche 5 cartes
             for i in liste_joueurs:
                 self.piocheCarte(i, nb=5)
-            print(self.dico)
+            
+            self.dico['actif_player']=liste_joueurs[0]#On definit  quel joueur c'est de jouer
 
     def piocheCarte(self, nom_joueur, nb=1):
         nb = min(len(self.dico['pioche']), nb)  # on prend le minimum entre le nombre de cartes demandées et le nombre de cartes restantes dans la pioche
@@ -105,3 +105,4 @@ class Partie():
 
 p = Partie({},["ee"])
 p.piocheCarte("ee")
+print(p.getDict())

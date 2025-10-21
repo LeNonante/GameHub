@@ -32,5 +32,15 @@
                 "value": 3
             }
         ]
+    },    
+    {
+        "id": 3,
+        "title": "Fantasy",
+        "description": "Dans un bois mysterieux et caché des humains, les créatures magiques se rassemblent pour élire leur nouveau roi ou reine. A vous de convaincre le plus de créatures de voter pour vous",
+        "image": "/static/ressourcesJeux/Fantasy/Fantasy.png",
+        "min_players": 2,
+        "max_players": 4,
+        "rules": "static/ressourcesJeux/Fantasy/rules.md",
+        "params" : []
     }
 ]

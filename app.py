@@ -4,6 +4,7 @@ import markdown
 import uuid
 from static.gestionDB import *
 from static.gestionAccess import *
+from static.ressourcesJeux.Fantasy.FantasyFunctions import *
 import base64
 import os
 import shutil
@@ -108,7 +109,8 @@ def lancementgame():
         else:
             nb_manches = 1  # Valeur minimale
         params=[nb_manches]
-
+    elif game_id == 3 : #Fantasy
+        params=[]
     
     params_text = json.dumps(params)  # Convertir la liste en chaîne JSON
     setParamsPartieByCode(codePartie, params_text)  # Enregistrer les
@@ -154,11 +156,20 @@ def game(game_code):#param est fourni quand cette fonction est lancée pour conf
                     createAgentTroublePartie(game_code, nb_lieux) #On crée la partie Agent Trouble dans la DB
                     setEtatPartieByCode(game_code, 2) #On passe l'état de la partie à "configurée"
                     return redirect(url_for('game', game_code=game_code))
-                if game_id==2: #Insider
+                elif game_id==2: #Insider
                     params_brut=getParamsPartieByCode(game_code)[0][0] #On récupère les paramètres de la partie (ici le nombre de manches)
                     params=json.loads(params_brut) #transforme en liste
                     nb_manches=params[0] #On récupère le nombre de manches
                     createInsiderPartie(game_code, nb_manches) #On crée la partie Insider dans la DB
+                    setEtatPartieByCode(game_code, 2) #On passe l'état de la partie à "configurée"
+                    return redirect(url_for('game', game_code=game_code))
+                elif game_id==3: #Fantasy
+                    params_brut=getParamsPartieByCode(game_code)[0][0] #On récupère les paramètres de la partie
+                    params=json.loads(params_brut) #transforme en liste
+                    listeJoueurs=getSessionsByGameCode(game_code)
+                    createFantasyPartie(game_code, params) #On crée la partie Fantasy dans la DB
+                    infos_init_partie=InitPartieFantasy(listeJoueurs) #On initialise la partie et recup les infos
+                    saveFantasyPartie(game_code, infos_init_partie) #On sauvegarde la partie
                     setEtatPartieByCode(game_code, 2) #On passe l'état de la partie à "configurée"
                     return redirect(url_for('game', game_code=game_code))
                 else:

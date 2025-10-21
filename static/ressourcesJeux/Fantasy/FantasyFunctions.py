@@ -119,11 +119,6 @@ class Partie():
     def getDict(self):
         return self.dico
     
-    
-
-p = Partie({},["ee","ff"])
-p.joueurCarte("ee",1)
-print(p.getDict())
-p.echangerMain("ee","ff")
-p.echangerPeuple("ee","ff")
-print(p.getDict())
+def InitPartieFantasy(liste_joueurs):
+    partie=Partie({}, liste_joueurs)
+    return partie.getDict()    

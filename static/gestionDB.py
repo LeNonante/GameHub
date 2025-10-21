@@ -4,6 +4,7 @@ import random
 import datetime
 import shutil
 import os
+import json
 
 if __name__ == "__main__":
     from ressourcesJeux.AgentTrouble.AgentTroubleFunctions import *
@@ -471,3 +472,54 @@ def getInfosInsiderBySessionAndGameCode(session, gameCode):
     roles = [r.strip() for r in roles]
     mots = [m.strip() for m in mots]
     return {'roles': roles, 'mots': mots}
+
+# Functions spécifiques au jeu "Fantasy" --------------------------------------------------------------------------------------------------------------
+
+def createFantasyPartie(GameCode, params):
+    """
+    Crée une nouvelle partie du jeu "Fantasy" en récupérant les infos de la game et les ajoutant dans la table PartiesFantasy.
+    Args:
+        GameCode (str): Le code de la partie.
+        params (list): Les paramètres de la partie.
+    """
+    curseur = create_connection(cheminDB)
+    # Ajouter les infos de la partie à la table "PartiesFantasy"
+    query_insert = f"INSERT INTO PartiesFantasy (GameCode, Sauvegarde) VALUES (?, ?)"
+    initial_sauvegarde = "{}"  # Dictionnaire vide au format string
+    curseur.execute(query_insert, (GameCode, initial_sauvegarde))
+    curseur.connection.commit()
+    curseur.close()
+    close_connection()
+
+
+def loadSauvegardeFantasy(GameCode):
+    """
+    Charge la sauvegarde d'une partie du jeu "Fantasy" en fonction du code de la partie.
+    Args:
+        GameCode (str): Le code de la partie.
+    Returns:
+        dict: Un dictionnaire contenant les informations de la partie, ou None si la partie n'existe pas.
+    """
+    curseur = create_connection(cheminDB)
+    query = f"SELECT Sauvegarde FROM PartiesFantasy WHERE GameCode = '{GameCode}'"
+    result = execute_query(curseur, query)[0][0]
+    result = eval(result) #transforme la string en dictionnaire
+    curseur.close()
+    close_connection()
+    return result
+
+def saveFantasyPartie(GameCode, sauvegarde):
+    """
+    Sauvegarde l'état d'une partie du jeu "Fantasy" en fonction du code de la partie.
+    Args:
+        GameCode (str): Le code de la partie.
+        sauvegarde (dict): Un dictionnaire contenant les informations de la partie à sauvegarder.
+    """
+    curseur = create_connection(cheminDB)
+    # Convertir le dictionnaire en JSON string pour éviter les problèmes de syntaxe SQL
+    sauvegarde_json = json.dumps(sauvegarde)
+    query = "UPDATE PartiesFantasy SET Sauvegarde = ? WHERE GameCode = ?"
+    curseur.execute(query, (sauvegarde_json, GameCode))
+    curseur.connection.commit()
+    curseur.close()
+    close_connection()

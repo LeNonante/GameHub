@@ -228,6 +228,15 @@ def game(game_code):#param est fourni quand cette fonction est lancée pour conf
                                         mots=mots,
                                         nbManche=len(roles))
                 
+                elif game_id==3: #Fantasy
+                    session = request.cookies.get("player_id")
+                    # Vérifications de base
+                    if not session or not isCodeValid(game_code):
+                        return redirect(url_for('index'))
+                    infos_partie = loadSauvegardeFantasy(game_code)
+                    liste_cartes=getCheminsImagesFantasy(["img01","img02","img02","img02"])
+                    return render_template('fantasy_game.html', game_code=game_code, player_name=getPseudoBySessionAndGameCode(session, game_code), player_main_images=liste_cartes, nbCartesMain=len(liste_cartes)) 
+                
                 else:
                     return "Page de jeu non encore disponible"
         return "Jeu non trouvé", 404

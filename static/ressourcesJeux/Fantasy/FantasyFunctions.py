@@ -10,6 +10,7 @@
 #revoir nb de chaque race dans la pioche (dico dans init partie)
 import random   
 
+cheminAssetsAgentTrouble="static/ressourcesJeux/Fantasy/assets/"
 
 class Carte():
     def __init__(self, nom, pouvoir):
@@ -118,6 +119,15 @@ class Partie():
 
     def getDict(self):
         return self.dico
+
+def getCheminsImagesFantasy(liste_cartes):
+    if liste_cartes==[]:
+        return []
+    else :
+        liste_chemins=[]
+        for i in liste_cartes:
+            liste_chemins.append(cheminAssetsAgentTrouble+"cartes/"+i+".png")
+        return liste_chemins
     
 def InitPartieFantasy(liste_joueurs):
     partie=Partie({}, liste_joueurs)

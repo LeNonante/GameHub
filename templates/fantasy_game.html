@@ -39,22 +39,159 @@
 
             <!-- Contenu principal -->
             <div class="game-content">
-                <!-- Section cartes du joueur -->
-                <div class="player-main-cards-section">
-                    <h2 class="section-title">Votre Main</h2>
+
+                <!-- Conteneur de la table de jeu -->
+                <div class="game-table">
                     
-                    {% if nbCartesMain != 0 %}
-                        {% for i in player_main_images%}  
-                            <img src="{{ player_card_image }}" 
-                                alt="ss" 
-                                class="player-main-card">
-                        {% endfor %}
-                    {% else %}
-                        <div style="text-align: center; color: #94a3b8; padding: 40px;">
-                            <div style="font-size: 3rem;">🃏</div>
-                            <p>Votre main est vide</p>
+                    <!-- Joueur du haut (adversaire 1) -->
+                    {% if infos_autres_joueurs|length >= 1 %}
+                    <div class="opponent-zone opponent-top">
+                        <div class="opponent-info">
+                            <h3 class="opponent-name">{{ infos_autres_joueurs[0][0] }}</h3>
+                            <div class="opponent-hand-count">
+                                <span class="hand-icon">🃏</span>
+                                <span class="hand-count">{{ infos_autres_joueurs[0][2] }}</span>
+                            </div>
                         </div>
+                        <div class="opponent-peuple">
+                            {% for carte_info in infos_autres_joueurs[0][1] %}
+                                <div class="peuple-card-stack-small">
+                                    {% set chemin_image = carte_info[0] %}
+                                    {% set nombre_cartes = carte_info[1] %}
+                                    
+                                    {% for n in range([nombre_cartes, 3]|min) %}
+                                        <img src="{{ url_for('static', filename=chemin_image.replace('static/', '')) }}" 
+                                            alt="Carte" 
+                                            class="opponent-peuple-card">
+                                    {% endfor %}
+                                    <div class="card-count-badge-small">{{ nombre_cartes }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                     {% endif %}
+
+                    <!-- Zone des joueurs latéraux -->
+                    <div class="middle-row">
+                        <!-- Joueur de gauche (adversaire 2) -->
+                        {% if infos_autres_joueurs|length >= 2 %}
+                        <div class="opponent-zone opponent-left">
+                            <div class="opponent-info">
+                                <h3 class="opponent-name">{{ infos_autres_joueurs[1][0] }}</h3>
+                                <div class="opponent-hand-count">
+                                    <span class="hand-icon">🃏</span>
+                                    <span class="hand-count">{{ infos_autres_joueurs[1][2] }}</span>
+                                </div>
+                            </div>
+                            <div class="opponent-peuple">
+                                {% for carte_info in infos_autres_joueurs[1][1] %}
+                                    <div class="peuple-card-stack-small">
+                                        {% set chemin_image = carte_info[0] %}
+                                        {% set nombre_cartes = carte_info[1] %}
+                                        
+                                        {% for n in range([nombre_cartes, 3]|min) %}
+                                            <img src="{{ url_for('static', filename=chemin_image.replace('static/', '')) }}" 
+                                                alt="Carte" 
+                                                class="opponent-peuple-card">
+                                        {% endfor %}
+                                        <div class="card-count-badge-small">{{ nombre_cartes }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Zone centrale (plateau/pioche/défausse si besoin plus tard) -->
+                        <div class="center-zone">
+                            <div class="center-placeholder">
+                                <p>🎴</p>
+                                <span>Plateau de jeu</span>
+                            </div>
+                        </div>
+
+                        <!-- Joueur de droite (adversaire 3) -->
+                        {% if infos_autres_joueurs|length >= 3 %}
+                        <div class="opponent-zone opponent-right">
+                            <div class="opponent-info">
+                                <h3 class="opponent-name">{{ infos_autres_joueurs[2][0] }}</h3>
+                                <div class="opponent-hand-count">
+                                    <span class="hand-icon">🃏</span>
+                                    <span class="hand-count">{{ infos_autres_joueurs[2][2] }}</span>
+                                </div>
+                            </div>
+                            <div class="opponent-peuple">
+                                {% for carte_info in infos_autres_joueurs[2][1] %}
+                                    <div class="peuple-card-stack-small">
+                                        {% set chemin_image = carte_info[0] %}
+                                        {% set nombre_cartes = carte_info[1] %}
+                                        
+                                        {% for n in range([nombre_cartes, 3]|min) %}
+                                            <img src="{{ url_for('static', filename=chemin_image.replace('static/', '')) }}" 
+                                                alt="Carte" 
+                                                class="opponent-peuple-card">
+                                        {% endfor %}
+                                        <div class="card-count-badge-small">{{ nombre_cartes }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Zone du joueur (en bas) -->
+                    <div class="player-zone">
+                        <!-- Section cartes peuple du joueur -->
+                        <div class="player-peuple-cards-section">
+                            <h2 class="section-title">Votre Peuple</h2>
+                            {% if nbCartesPeuple != 0 %}
+                                <div class="peuple-cards-grid">
+                                    {% for carte_info in player_peuple_images %}
+                                        <div class="peuple-card-stack">
+                                            {% set chemin_image = carte_info[0] %}
+                                            {% set nombre_cartes = carte_info[1] %}
+                                            
+                                            <!-- Afficher jusqu'à 5 cartes empilées pour l'effet visuel -->
+                                            {% for n in range([nombre_cartes, 5]|min) %}
+                                                <img src="{{ url_for('static', filename=chemin_image.replace('static/', '')) }}" 
+                                                    alt="Carte peuple" 
+                                                    class="player-peuple-card">
+                                            {% endfor %}
+                                            
+                                            <!-- Badge avec le nombre total -->
+                                            <div class="card-count-badge">{{ nombre_cartes }}</div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="empty-peuple-message">
+                                    <div class="icon">🧝</div>
+                                    <p>Votre peuple est vide</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Section cartes main du joueur -->
+                        <div class="player-main-cards-section">
+                            <h2 class="section-title">Votre Main</h2>
+                            
+                            {% if nbCartesMain != 0 %}
+                                <div class="cards-fan-container">
+                                    {% for i in player_main_images %}  
+                                        <img src="{{ url_for('static', filename=i.replace('static/', '')) }}" 
+                                            alt="Carte {{ loop.index }}" 
+                                            class="player-main-card"
+                                            title="Carte {{ loop.index }}">
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="empty-hand-message">
+                                    <div class="icon">🧝</div>
+                                    <p>Votre main est vide</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
                 </div>
 
                 </div>

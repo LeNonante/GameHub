@@ -234,8 +234,10 @@ def game(game_code):#param est fourni quand cette fonction est lancée pour conf
                     if not session or not isCodeValid(game_code):
                         return redirect(url_for('index'))
                     infos_partie = loadSauvegardeFantasy(game_code)
-                    liste_cartes=getCheminsImagesFantasy(["img01","img02","img02","img02"])
-                    return render_template('fantasy_game.html', game_code=game_code, player_name=getPseudoBySessionAndGameCode(session, game_code), player_main_images=liste_cartes, nbCartesMain=len(liste_cartes)) 
+                    liste_cartes_mains=getCheminsImagesFantasy(["img01","img02","img02","img02","img01","img02","img02","img02"])
+                    liste_cartes_peuple=getListeCartesPeupleFormatee(["img01","img02","img02","img02","img01","img02","img02","img02"])
+                    infos_autres_joueurs= [("joueur1", getListeCartesPeupleFormatee(["img01","img02","img02","img02","img01","img02","img02","img02"]), 4), ("joueur2", getListeCartesPeupleFormatee(["img01","img02","img02","img02","img01","img02","img02","img02"]), 4), ("joueur3", getListeCartesPeupleFormatee(["img01","img02","img02","img02","img01","img02","img02","img02"]), 4)]
+                    return render_template('fantasy_game.html', game_code=game_code, player_name=getPseudoBySessionAndGameCode(session, game_code), player_main_images=liste_cartes_mains, nbCartesMain=len(liste_cartes_mains), player_peuple_images=liste_cartes_peuple, nbCartesPeuple=len(liste_cartes_peuple), infos_autres_joueurs=infos_autres_joueurs)
                 
                 else:
                     return "Page de jeu non encore disponible"

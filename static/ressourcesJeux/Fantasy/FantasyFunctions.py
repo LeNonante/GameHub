@@ -128,6 +128,19 @@ def getCheminsImagesFantasy(liste_cartes):
         for i in liste_cartes:
             liste_chemins.append(cheminAssetsAgentTrouble+"cartes/"+i+".png")
         return liste_chemins
+
+def getListeCartesPeupleFormatee(liste_cartes):
+    """ Renvoie une liste de tuples (chemin_image, nombre_exemplaires) pour chaque espèce dans la liste de cartes du peuple. Utilisée pour l'affichage concis du peuple d'un joueur."""
+    liste_especes=["Korrigan","Elfe","Farfadet","Gnome","Lutin","Dryade","Fee"]
+    liste_especes=["img01","img02"]
+    liste_formatee=[]
+    cartes_deja_traitees=[]
+    for i in liste_especes:
+        if i in liste_cartes and i not in cartes_deja_traitees:
+            chemin_carte=cheminAssetsAgentTrouble+"cartes/"+i+".png"
+            liste_formatee.append((chemin_carte, liste_cartes.count(i)))
+            cartes_deja_traitees.append(i)
+    return liste_formatee
     
 def InitPartieFantasy(liste_joueurs):
     partie=Partie({}, liste_joueurs)

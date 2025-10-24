@@ -60,13 +60,13 @@ class Partie():
         if dico_partie=={} : #Si la partie n'a jamais été sauvegardée (vient d'etre créee), on créé tout
             #CREATION DE LA PIOCHE
             dico_repartition = { #Nombre de cartes de chaque race
-                "Korrigan": 10,
-                "Elfe": 10,
-                "Farfadet": 10,
-                "Gnome": 10,
-                "Lutin": 10,
-                "Dryade": 10,
-                "Fee": 10
+                "Korrigan": 8,
+                "Elfe": 8,
+                "Farfadet": 8,
+                "Gnome": 8,
+                "Lutin": 8,
+                "Dryade": 8,
+                "Fee": 8
             }
 
             self.dico['pioche'] = []
@@ -132,7 +132,6 @@ def getCheminsImagesFantasy(liste_cartes):
 def getListeCartesPeupleFormatee(liste_cartes):
     """ Renvoie une liste de tuples (chemin_image, nombre_exemplaires) pour chaque espèce dans la liste de cartes du peuple. Utilisée pour l'affichage concis du peuple d'un joueur."""
     liste_especes=["Korrigan","Elfe","Farfadet","Gnome","Lutin","Dryade","Fee"]
-    liste_especes=["img01","img02"]
     liste_formatee=[]
     cartes_deja_traitees=[]
     for i in liste_especes:

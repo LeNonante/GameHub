@@ -43,18 +43,18 @@
                 <!-- Conteneur de la table de jeu -->
                 <div class="game-table">
                     
-                    <!-- Joueur du haut (adversaire 1) -->
-                    {% if infos_autres_joueurs|length >= 1 %}
+                    <!-- Joueur du haut (adversaire 2) -->
+                    {% if infos_autres_joueurs|length >= 2 %}
                     <div class="opponent-zone opponent-top">
                         <div class="opponent-info">
-                            <h3 class="opponent-name">{{ infos_autres_joueurs[0][0] }}</h3>
+                            <h3 class="opponent-name">{{ infos_autres_joueurs[1][0] }}</h3>
                             <div class="opponent-hand-count">
                                 <span class="hand-icon">🃏</span>
-                                <span class="hand-count">{{ infos_autres_joueurs[0][2] }}</span>
+                                <span class="hand-count">{{ infos_autres_joueurs[1][2] }}</span>
                             </div>
                         </div>
                         <div class="opponent-peuple">
-                            {% for carte_info in infos_autres_joueurs[0][1] %}
+                            {% for carte_info in infos_autres_joueurs[1][1] %}
                                 <div class="peuple-card-stack-small">
                                     {% set chemin_image = carte_info[0] %}
                                     {% set nombre_cartes = carte_info[1] %}
@@ -73,18 +73,18 @@
 
                     <!-- Zone des joueurs latéraux -->
                     <div class="middle-row">
-                        <!-- Joueur de gauche (adversaire 2) -->
-                        {% if infos_autres_joueurs|length >= 2 %}
+                        <!-- Joueur de gauche (adversaire 1) -->
+                        {% if infos_autres_joueurs|length >= 1 %}
                         <div class="opponent-zone opponent-left">
                             <div class="opponent-info">
-                                <h3 class="opponent-name">{{ infos_autres_joueurs[1][0] }}</h3>
+                                <h3 class="opponent-name">{{ infos_autres_joueurs[0][0] }}</h3>
                                 <div class="opponent-hand-count">
                                     <span class="hand-icon">🃏</span>
-                                    <span class="hand-count">{{ infos_autres_joueurs[1][2] }}</span>
+                                    <span class="hand-count">{{ infos_autres_joueurs[0][2] }}</span>
                                 </div>
                             </div>
                             <div class="opponent-peuple">
-                                {% for carte_info in infos_autres_joueurs[1][1] %}
+                                {% for carte_info in infos_autres_joueurs[0][1] %}
                                     <div class="peuple-card-stack-small">
                                         {% set chemin_image = carte_info[0] %}
                                         {% set nombre_cartes = carte_info[1] %}

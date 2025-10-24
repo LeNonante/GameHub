@@ -234,9 +234,25 @@ def game(game_code):#param est fourni quand cette fonction est lancée pour conf
                     if not session or not isCodeValid(game_code):
                         return redirect(url_for('index'))
                     infos_partie = loadSauvegardeFantasy(game_code)
-                    liste_cartes_mains=getCheminsImagesFantasy(["img01","img02","img02","img02","img01","img02","img02","img02"])
-                    liste_cartes_peuple=getListeCartesPeupleFormatee(["img01","img02","img02","img02","img01","img02","img02","img02"])
-                    infos_autres_joueurs= [("joueur1", getListeCartesPeupleFormatee(["img01","img02","img02","img02","img01","img02","img02","img02"]), 4), ("joueur2", getListeCartesPeupleFormatee(["img01","img02","img02","img02","img01","img02","img02","img02"]), 4), ("joueur3", getListeCartesPeupleFormatee(["img01","img02","img02","img02","img01","img02","img02","img02"]), 4)]
+                    print(infos_partie)
+                    pseudo=getPseudoBySessionAndGameCode(session, game_code)
+                    #On recup les mains et peuples du joeur et on formate pour l'affichage
+                    liste_cartes_mains=infos_partie['joueurs'][session]['main']
+                    liste_cartes_mains=getCheminsImagesFantasy(liste_cartes_mains)
+                    liste_cartes_peuple=infos_partie['joueurs'][session]['peuple']
+                    liste_cartes_peuple=getListeCartesPeupleFormatee(liste_cartes_peuple)
+                    #On recup liste les joueurs de la session
+                    liste_autres_joueurs_sessions=[s for s in infos_partie['joueurs'].keys()]
+                    position_joueur=liste_autres_joueurs_sessions.index(session) #On recup l'index du joueur
+                    liste_autres_joueurs_sessions=liste_autres_joueurs_sessions[position_joueur+1:]+liste_autres_joueurs_sessions[:position_joueur] #"on fait tourner" la liste pour que les autres joueurs soient dans le bon ordre et supprime le joueur courant
+                    infos_autres_joueurs=[]
+                    #On crée la liste des infos des autres joueurs
+                    for s in liste_autres_joueurs_sessions:
+                        pseudo_joueur=getPseudoBySessionAndGameCode(s, game_code)
+                        liste_cartes_peuple_joueur=infos_partie['joueurs'][s]['peuple']
+                        liste_cartes_peuple_joueur=getListeCartesPeupleFormatee(liste_cartes_peuple_joueur)
+                        nb_cartes_main_joueur=len(infos_partie['joueurs'][s]['main'])
+                        infos_autres_joueurs.append((pseudo_joueur, liste_cartes_peuple_joueur, nb_cartes_main_joueur))
                     return render_template('fantasy_game.html', game_code=game_code, player_name=getPseudoBySessionAndGameCode(session, game_code), player_main_images=liste_cartes_mains, nbCartesMain=len(liste_cartes_mains), player_peuple_images=liste_cartes_peuple, nbCartesPeuple=len(liste_cartes_peuple), infos_autres_joueurs=infos_autres_joueurs)
                 
                 else:

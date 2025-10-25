@@ -216,14 +216,14 @@
     justify-content: center;
     align-items: flex-end;
     position: relative;
-    height: 200px;
+    height: 400px;
     perspective: 1000px;
 }
 
 /* Carte individuelle */
 .player-main-card {
-    width: 100px;
-    height: 140px;
+    width: 200px;
+    height: 280px;
     border-radius: 10px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     cursor: pointer;
@@ -253,70 +253,70 @@
 
 /* Positionnement en éventail (pour 1 à 10 cartes) - ajusté pour cartes plus petites */
 .player-main-card:nth-child(1) { 
-    left: calc(50% - 50px); 
+    left: calc(50% - 100px); 
     transform: rotate(-5deg); 
     z-index: 5;
     animation-delay: 0.1s;
 }
 
 .player-main-card:nth-child(2) { 
-    left: calc(50% - 120px); 
+    left: calc(50% - 240px); 
     transform: rotate(-15deg); 
     z-index: 4;
     animation-delay: 0.2s;
 }
 
 .player-main-card:nth-child(3) { 
-    left: calc(50% + 20px); 
+    left: calc(50% + 40px); 
     transform: rotate(5deg); 
     z-index: 4;
     animation-delay: 0.3s;
 }
 
 .player-main-card:nth-child(4) { 
-    left: calc(50% - 190px); 
+    left: calc(50% - 380px); 
     transform: rotate(-25deg); 
     z-index: 3;
     animation-delay: 0.4s;
 }
 
 .player-main-card:nth-child(5) { 
-    left: calc(50% + 90px); 
+    left: calc(50% + 180px); 
     transform: rotate(15deg); 
     z-index: 3;
     animation-delay: 0.5s;
 }
 
 .player-main-card:nth-child(6) { 
-    left: calc(50% - 260px); 
+    left: calc(50% - 520px); 
     transform: rotate(-35deg); 
     z-index: 2;
     animation-delay: 0.6s;
 }
 
 .player-main-card:nth-child(7) { 
-    left: calc(50% + 160px); 
+    left: calc(50% + 320px); 
     transform: rotate(25deg); 
     z-index: 2;
     animation-delay: 0.7s;
 }
 
 .player-main-card:nth-child(8) { 
-    left: calc(50% - 330px); 
+    left: calc(50% - 660px); 
     transform: rotate(-45deg); 
     z-index: 1;
     animation-delay: 0.8s;
 }
 
 .player-main-card:nth-child(9) { 
-    left: calc(50% + 230px); 
+    left: calc(50% + 460px); 
     transform: rotate(35deg); 
     z-index: 1;
     animation-delay: 0.9s;
 }
 
 .player-main-card:nth-child(10) { 
-    left: calc(50% + 300px); 
+    left: calc(50% + 600px); 
     transform: rotate(45deg); 
     z-index: 0;
     animation-delay: 1s;
@@ -362,43 +362,43 @@
 /* Responsive */
 @media (max-width: 1200px) {
     .cards-fan-container {
-        height: 180px;
+        height: 360px;
     }
     
     .player-main-card {
-        width: 90px;
-        height: 125px;
+        width: 180px;
+        height: 250px;
     }
     
-    .player-main-card:nth-child(1) { left: calc(50% - 45px); }
-    .player-main-card:nth-child(2) { left: calc(50% - 100px); }
-    .player-main-card:nth-child(3) { left: calc(50% + 10px); }
-    .player-main-card:nth-child(4) { left: calc(50% - 150px); }
-    .player-main-card:nth-child(5) { left: calc(50% + 65px); }
-    .player-main-card:nth-child(6) { left: calc(50% - 200px); }
-    .player-main-card:nth-child(7) { left: calc(50% + 120px); }
-    .player-main-card:nth-child(8) { left: calc(50% - 250px); }
-    .player-main-card:nth-child(9) { left: calc(50% + 175px); }
-    .player-main-card:nth-child(10) { left: calc(50% + 230px); }
+    .player-main-card:nth-child(1) { left: calc(50% - 90px); }
+    .player-main-card:nth-child(2) { left: calc(50% - 200px); }
+    .player-main-card:nth-child(3) { left: calc(50% + 20px); }
+    .player-main-card:nth-child(4) { left: calc(50% - 300px); }
+    .player-main-card:nth-child(5) { left: calc(50% + 130px); }
+    .player-main-card:nth-child(6) { left: calc(50% - 400px); }
+    .player-main-card:nth-child(7) { left: calc(50% + 240px); }
+    .player-main-card:nth-child(8) { left: calc(50% - 500px); }
+    .player-main-card:nth-child(9) { left: calc(50% + 350px); }
+    .player-main-card:nth-child(10) { left: calc(50% + 460px); }
     
     .peuple-cards-grid {
         gap: 18px;
     }
     
     .peuple-card-stack {
-        width: 90px;
-        height: 125px;
+        width: 180px;
+        height: 250px;
     }
     
     .player-peuple-card {
-        width: 90px;
-        height: 125px;
+        width: 180px;
+        height: 250px;
     }
     
     .card-count-badge {
-        width: 28px;
-        height: 28px;
-        font-size: 13px;
+        width: 56px;
+        height: 56px;
+        font-size: 26px;
     }
 
     .middle-row {
@@ -427,24 +427,24 @@
     }
     
     .cards-fan-container {
-        height: 150px;
+        height: 300px;
     }
     
     .player-main-card {
-        width: 70px;
-        height: 100px;
+        width: 140px;
+        height: 200px;
     }
     
-    .player-main-card:nth-child(1) { left: calc(50% - 35px); }
-    .player-main-card:nth-child(2) { left: calc(50% - 80px); }
-    .player-main-card:nth-child(3) { left: calc(50% + 10px); }
-    .player-main-card:nth-child(4) { left: calc(50% - 120px); }
-    .player-main-card:nth-child(5) { left: calc(50% + 50px); }
-    .player-main-card:nth-child(6) { left: calc(50% - 160px); }
-    .player-main-card:nth-child(7) { left: calc(50% + 90px); }
-    .player-main-card:nth-child(8) { left: calc(50% - 200px); }
-    .player-main-card:nth-child(9) { left: calc(50% + 130px); }
-    .player-main-card:nth-child(10) { left: calc(50% + 170px); }
+    .player-main-card:nth-child(1) { left: calc(50% - 70px); }
+    .player-main-card:nth-child(2) { left: calc(50% - 160px); }
+    .player-main-card:nth-child(3) { left: calc(50% + 20px); }
+    .player-main-card:nth-child(4) { left: calc(50% - 240px); }
+    .player-main-card:nth-child(5) { left: calc(50% + 100px); }
+    .player-main-card:nth-child(6) { left: calc(50% - 320px); }
+    .player-main-card:nth-child(7) { left: calc(50% + 180px); }
+    .player-main-card:nth-child(8) { left: calc(50% - 400px); }
+    .player-main-card:nth-child(9) { left: calc(50% + 260px); }
+    .player-main-card:nth-child(10) { left: calc(50% + 340px); }
     
     .peuple-cards-grid {
         gap: 15px;
@@ -452,21 +452,21 @@
     }
     
     .peuple-card-stack {
-        width: 70px;
-        height: 100px;
+        width: 140px;
+        height: 200px;
     }
     
     .player-peuple-card {
-        width: 70px;
-        height: 100px;
+        width: 140px;
+        height: 200px;
     }
     
     .card-count-badge {
-        width: 24px;
-        height: 24px;
-        font-size: 12px;
-        bottom: -6px;
-        right: -6px;
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+        bottom: -12px;
+        right: -12px;
     }
 
     /* Disposition verticale sur mobile */
@@ -556,8 +556,8 @@
 /* Groupe de cartes identiques empilées */
 .peuple-card-stack {
     position: relative;
-    width: 100px;
-    height: 140px;
+    width: 200px;
+    height: 280px;
     cursor: pointer;
     transition: transform 0.3s ease;
 }
@@ -568,8 +568,8 @@
 
 /* Carte individuelle dans la pile */
 .player-peuple-card {
-    width: 100px;
-    height: 140px;
+    width: 200px;
+    height: 280px;
     border-radius: 10px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     position: absolute;
@@ -586,29 +586,29 @@
 }
 
 .player-peuple-card:nth-child(2) {
-    top: 5px;
-    left: 5px;
+    top: 10px;
+    left: 10px;
     z-index: 4;
     opacity: 0.9;
 }
 
 .player-peuple-card:nth-child(3) {
-    top: 10px;
-    left: 10px;
+    top: 20px;
+    left: 20px;
     z-index: 3;
     opacity: 0.8;
 }
 
 .player-peuple-card:nth-child(4) {
-    top: 15px;
-    left: 15px;
+    top: 30px;
+    left: 30px;
     z-index: 2;
     opacity: 0.7;
 }
 
 .player-peuple-card:nth-child(5) {
-    top: 20px;
-    left: 20px;
+    top: 40px;
+    left: 40px;
     z-index: 1;
     opacity: 0.6;
 }
@@ -616,18 +616,18 @@
 /* Badge du compteur */
 .card-count-badge {
     position: absolute;
-    bottom: -8px;
-    right: -8px;
+    bottom: -16px;
+    right: -16px;
     background: linear-gradient(135deg, #10b981, #059669);
     color: white;
-    width: 32px;
-    height: 32px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 28px;
     border: 2px solid rgba(30, 41, 59, 0.95);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
     z-index: 10;
@@ -647,12 +647,12 @@
 
 /* Effet hover sur la pile */
 .peuple-card-stack:hover .player-peuple-card:nth-child(1) {
-    transform: translate(-5px, -5px);
+    transform: translate(-10px, -10px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
 }
 
 .peuple-card-stack:hover .player-peuple-card:nth-child(2) {
-    transform: translate(-2px, -2px);
+    transform: translate(-4px, -4px);
 }
 
 .peuple-card-stack:hover .card-count-badge {

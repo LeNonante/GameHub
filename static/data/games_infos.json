@@ -32,5 +32,16 @@
                 "value": 3
             }
         ]
+    },
+    {
+        "id": 4,
+        "title": "Flip 7",
+        "description": "Chaque carte est un pari. Jouez-vous la sécurité ou defiez-vous le hasard ? Gagnez un maximum de points mais attention à ne pas être trop gourmand !",
+        "image": "/static/ressourcesJeux/Flip7/Flip7.png",
+        "min_players": 3,
+        "max_players": 0,
+        "rules": "static/ressourcesJeux/Flip7/rules.md",
+        "params" : [
+        ]
     }
 ]
